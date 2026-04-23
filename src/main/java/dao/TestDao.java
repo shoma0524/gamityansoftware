@@ -7,11 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.security.auth.Subject;
-
 import bean.School;
 import bean.Student;
-import jdk.incubator.vector.VectorOperators.Test;
+import bean.Subject;
+import bean.Test;
 
 public class TestDao extends Dao {
 
@@ -148,6 +147,31 @@ public class TestDao extends Dao {
 	 * 戻り値: boolean型 trueなら更新成功
 	 * */
 	public boolean save(List<Test> list) throws Exception {
+		Connection connection = getConnection();
+
+		try {
+			connection.setAutoCommit(false);
+
+			for (Test test : list) {
+				boolean isSuccess =  save(test, connection);
+				if (isSuccess == false) {
+					break;
+				}
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.setAutoCommit(true);
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+		}
+
+
 		return true;
 	}
 
@@ -156,6 +180,47 @@ public class TestDao extends Dao {
 	 * 戻り値: boolean型 trueなら更新成功
 	 * */
 	private boolean save(Test test, Connection connection) throws Exception {
-		return true;
+		PreparedStatement statement = null;
+		int count = 0;
+
+		try {
+			Test old = get(test.getStudent(), test.getSubject(), test.getSchool(), test.getNo());
+			if (old == null) {
+				statement = connection.prepareStatement(
+						"insert into test(student_no,subject_cd,school_cd,no,point,class_num) values(?,?,?,?,?,?)");
+				statement.setString(1, test.getStudent().getNo());
+				statement.setString(2, test.getSubject().getCd());
+				statement.setString(3, test.getSchool().getCd());
+				statement.setInt(4, test.getNo());
+				statement.setInt(5, test.getPoint());
+				statement.setString(6, test.getClassNum());
+			} else {
+				statement = connection.prepareStatement(
+						"update test set point=? where student_no=? and subject_cd=? and school_cd=? and no=?");
+				statement.setInt(1, test.getPoint());
+				statement.setString(2, test.getStudent().getNo());
+				statement.setString(3, test.getSubject().getCd());
+				statement.setString(4, test.getSchool().getCd());
+				statement.setInt(5, test.getNo());
+			}
+			count = statement.executeUpdate();
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle
+				}
+			}
+		}
+
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
