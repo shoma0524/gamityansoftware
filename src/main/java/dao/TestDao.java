@@ -11,6 +11,7 @@ import javax.security.auth.Subject;
 
 import bean.School;
 import bean.Student;
+import jdk.incubator.vector.VectorOperators.Test;
 
 public class TestDao extends Dao {
 
@@ -28,14 +29,14 @@ public class TestDao extends Dao {
 
 		try {
 			statement = connection.prepareStatement(
-					"select * from test where student_no=? and subject_cd=? and school_cd=? and no=?");
+					baseSql + "student_no=? and subject_cd=? and school_cd=? and no=? ");
 			statement.setString(1, student.getNo());
 			statement.setString(2, subject.getCd());
 			statement.setString(3, school.getCd());
 			statement.setInt(4, no);
 			ResultSet rSet = statement.executeQuery();
 			StudentDao studentDao = new StudentDao();
-			SubjectDao subjectDao = new Subjectdao();
+			SubjectDao subjectDao = new SubjectDao();
 
 			if (rSet.next()) {
 				test.setStudent(studentDao.get(rSet.getString("student_no")));
@@ -78,7 +79,7 @@ public class TestDao extends Dao {
 
 		try {
 			StudentDao studentDao = new StudentDao();
-			SubjectDao subjectDao = new Subjectdao();
+			SubjectDao subjectDao = new SubjectDao();
 			while (rSet.next()) {
 				Test test = new Test();
 
@@ -88,10 +89,11 @@ public class TestDao extends Dao {
 				test.setSchool(school);
 				test.setNo(rSet.getInt("no"));
 				test.setPoint(rSet.getInt("point"));
+				list.add(test);
 			}
 
-		} catch (Exception e) {
-			throw e;
+		} catch (SQLException  | NullPointerException e) {
+			e.printStackTrace();;
 		}
 
 		return list;
@@ -103,6 +105,7 @@ public class TestDao extends Dao {
 	 * */
 	public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school) throws Exception {
 		List<Test> list = new ArrayList<>();
+		Connection connection = getConnection();
 
 		return list;
 	}
