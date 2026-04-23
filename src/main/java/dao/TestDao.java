@@ -143,8 +143,8 @@ public class TestDao extends Dao {
 	}
 
 	/*
-	 * saveメソッド: テスト結果のリストの登録, 更新を行う
-	 * 戻り値: boolean型 trueなら更新成功
+	 * saveメソッド: テスト結果のリストの登録・更新を行う
+	 * 戻り値: boolean型 trueなら登録・更新成功
 	 * */
 	public boolean save(List<Test> list) throws Exception {
 		Connection connection = getConnection();
@@ -153,11 +153,17 @@ public class TestDao extends Dao {
 			connection.setAutoCommit(false);
 
 			for (Test test : list) {
+				// isSuccess: 登録・更新結果 trueなら成功
 				boolean isSuccess =  save(test, connection);
 				if (isSuccess == false) {
-					break;
+					// 登録・更新に失敗した場合
+					return false;
 				}
 			}
+
+			// すべての処理が正常に登録・更新された場合
+			connection.commit();
+			return true;
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -170,9 +176,6 @@ public class TestDao extends Dao {
 				}
 			}
 		}
-
-
-		return true;
 	}
 
 	/*
@@ -212,7 +215,7 @@ public class TestDao extends Dao {
 				try {
 					statement.close();
 				} catch (SQLException sqle) {
-					throw sqle
+					throw sqle;
 				}
 			}
 		}
