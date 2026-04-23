@@ -17,7 +17,7 @@ import tool.Action;
 public class TestListSubjectExecuteAction extends Action {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
         School school = teacher.getSchool();
