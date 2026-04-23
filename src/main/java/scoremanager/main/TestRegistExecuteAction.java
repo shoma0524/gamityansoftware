@@ -16,7 +16,7 @@ import tool.Action;
 public class TestRegistExecuteAction extends Action {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // セッションから学校情報を取得
         HttpSession session = request.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");

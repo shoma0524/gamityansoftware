@@ -7,9 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.security.auth.Subject;
-
 import bean.School;
+import bean.Subject;
 
 public class SubjectDao extends Dao {
 	
@@ -53,7 +52,7 @@ public class SubjectDao extends Dao {
 			}
 		}
 		
-		return Subject;
+		return subject;
 	}
 	
 	// 学校コードで絞り込み
