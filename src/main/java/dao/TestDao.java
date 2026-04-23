@@ -16,7 +16,7 @@ import jdk.incubator.vector.VectorOperators.Test;
 public class TestDao extends Dao {
 
 	// ベースとなるSQL
-	private String baseSql = "select * from test where ";
+	private String baseSql = "select * from test left join student on test.student_no=student.no ";
 
 	/*
 	 * getメソッド: 学生, 科目, 学校, テストの回数を指定して、テストの情報を1件取得する
@@ -29,7 +29,7 @@ public class TestDao extends Dao {
 
 		try {
 			statement = connection.prepareStatement(
-					baseSql + "student_no=? and subject_cd=? and school_cd=? and no=? ");
+					"select * from test where student_no=? and subject_cd=? and school_cd=? and no=? ");
 			statement.setString(1, student.getNo());
 			statement.setString(2, subject.getCd());
 			statement.setString(3, school.getCd());
@@ -106,6 +106,39 @@ public class TestDao extends Dao {
 	public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school) throws Exception {
 		List<Test> list = new ArrayList<>();
 		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		ResultSet rSet = null;
+		String order = "order by student_no asc ";
+
+		try {
+			statement = connection.prepareStatement(
+					baseSql + "where ent_year=? and test.class_num=? and subject_cd=? and test.no=? and school_cd=?" + order);
+			statement.setInt(1, entYear);
+			statement.setString(2, classNum);
+			statement.setString(3, subject.getCd());
+			statement.setInt(4, num);
+			statement.setString(5, school.getCd());
+			rSet = statement.executeQuery();
+
+			list = postFilter(rSet, school);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+		}
 
 		return list;
 	}
