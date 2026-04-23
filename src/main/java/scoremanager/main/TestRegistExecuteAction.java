@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import bean.School;
-import bean.Subject;
 import bean.Teacher;
 import dao.SubjectDao;
 import dao.TestDao;
@@ -16,7 +15,7 @@ import tool.Action;
 public class TestRegistExecuteAction extends Action {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // セッションから学校情報を取得
         HttpSession session = request.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
