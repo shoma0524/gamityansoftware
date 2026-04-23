@@ -52,7 +52,7 @@ public class SubjectDao extends Dao {
 			}
 		}
 		
-		return Subject;
+		return subject;
 	}
 	
 	// 学校コードで絞り込み
