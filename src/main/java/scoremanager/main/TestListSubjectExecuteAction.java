@@ -2,11 +2,10 @@ package scoremanager.main;
 
 import java.util.List;
 
-import javax.security.auth.Subject;
-
 import bean.School;
+import bean.Subject;
 import bean.Teacher;
-import bean.TestListSubject;
+import bean.Test;
 import dao.SubjectDao;
 import dao.TestDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +25,7 @@ public class TestListSubjectExecuteAction extends Action {
         String entYearStr = request.getParameter("f1");
         String classNum = request.getParameter("f2");
         String subjectCd = request.getParameter("f3");
+        String numStr = request.getParameter("f4"); // ★回数(f4)を追加
 
         // 2. 未入力チェック
         if (entYearStr == null || entYearStr.equals("0") || 
@@ -33,11 +33,15 @@ public class TestListSubjectExecuteAction extends Action {
             subjectCd == null || subjectCd.equals("0")) {
             
             request.setAttribute("errors", "入学年度とクラスと科目を選択してください");
-            request.getRequestDispatcher("TestList.action").forward(request, response);
-            return;
+            // 直接フォワードせず、コントローラーにパスを返す
+            return "TestList.action";
         }
 
         int entYear = Integer.parseInt(entYearStr);
+        int num = 0; 
+        if (numStr != null && !numStr.isEmpty()) {
+            num = Integer.parseInt(numStr);
+        }
 
         // 3. 画面表示用に科目情報を取得
         SubjectDao sDao = new SubjectDao();
@@ -45,14 +49,15 @@ public class TestListSubjectExecuteAction extends Action {
 
         // 4. 成績一覧を取得
         TestDao tDao = new TestDao();
-        List<TestListSubject> list = tDao.filter(school, entYear, classNum, subjectCd);
+        
+        List<Test> list = tDao.filter(entYear, classNum, subject, num, school);
 
         // 5. JSPへ渡すデータをセット
-        // 検索条件
         request.setAttribute("f1", entYear);
         request.setAttribute("f2", classNum);
         request.setAttribute("f3", subjectCd);
-        request.setAttribute("subject", subject); // 科目名表示用
+        request.setAttribute("f4", num); 
+        request.setAttribute("subject", subject); 
 
         // 検索結果リスト
         if (list != null && list.size() > 0) {
@@ -61,6 +66,7 @@ public class TestListSubjectExecuteAction extends Action {
             request.setAttribute("errors", "学生情報が存在しませんでした");
         }
 
-        request.getRequestDispatcher("test_list_subject.jsp").forward(request, response);
+        // 最後はJSPのパスをリターン！
+        return "test_list_subject.jsp";
     }
 }
