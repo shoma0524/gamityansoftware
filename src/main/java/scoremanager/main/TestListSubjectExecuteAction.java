@@ -25,7 +25,7 @@ public class TestListSubjectExecuteAction extends Action {
         String entYearStr = request.getParameter("f1");
         String classNum = request.getParameter("f2");
         String subjectCd = request.getParameter("f3");
-        String numStr = request.getParameter("f4"); // ★回数(f4)を追加
+        String numStr = request.getParameter("f4"); 
 
         // 2. 未入力チェック
         if (entYearStr == null || entYearStr.equals("0") || 
