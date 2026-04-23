@@ -33,7 +33,6 @@ public class TestListSubjectExecuteAction extends Action {
             subjectCd == null || subjectCd.equals("0")) {
             
             request.setAttribute("errors", "入学年度とクラスと科目を選択してください");
-            // 直接フォワードせず、コントローラーにパスを返す
             return "TestList.action";
         }
 
@@ -66,7 +65,6 @@ public class TestListSubjectExecuteAction extends Action {
             request.setAttribute("errors", "学生情報が存在しませんでした");
         }
 
-        // 最後はJSPのパスをリターン！
         return "test_list_subject.jsp";
     }
 }
