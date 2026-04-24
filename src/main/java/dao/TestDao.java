@@ -15,8 +15,8 @@ import bean.Test;
 public class TestDao extends Dao {
 
 	// ベースとなるSQL
-	// TESTテーブルとSTUDENTテーブルの学生番号で左結合
-	private String baseSql = "select * from test join student on test.student_no=student.no ";
+	// STUDENTテーブルとTESTテーブルの学生番号で左結合
+	private String baseSql = "select * from ";
 
 	/*
 	 * getメソッド: 学生, 科目, 学校, テストの回数を指定して、テストの情報を1件取得する
@@ -83,12 +83,16 @@ public class TestDao extends Dao {
 			while (rSet.next()) {
 				Test test = new Test();
 
-				test.setStudent(studentDao.get(rSet.getString("student_no")));
+				test.setStudent(studentDao.get(rSet.getString("no")));
 				test.setClassNum(rSet.getString("class_num"));
 				test.setSubject(subjectDao.get(rSet.getString("subject_cd"), school));
 				test.setSchool(school);
-				test.setNo(rSet.getInt("no"));
-				test.setPoint(rSet.getInt("point"));
+				test.setNo(rSet.getInt("test_no"));
+
+				Object point = rSet.getObject("point");
+				if (point != null) {
+					test.setPoint((int)point);
+				}
 
 				list.add(test);
 			}
@@ -109,16 +113,20 @@ public class TestDao extends Dao {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		ResultSet rSet = null;
-		String order = "order by student_no asc ";
+		String order = "order by no asc ";
 
 		try {
-			statement = connection.prepareStatement(
-					baseSql + "where ent_year=? and test.class_num=? and subject_cd=? and test.no=? and school_cd=? " + order);
+			statement = connection.prepareStatement(baseSql
+					+ "(select * from student where ent_year=? and class_num=? and school_cd=?) as student "
+					+ "left join (select student_no, subject_cd, school_cd, no as test_no, point from test where subject_cd=? and test_no=?) as test "
+					+ "on student.no = test.student_no "
+					+ order);
 			statement.setInt(1, entYear);
 			statement.setString(2, classNum);
-			statement.setString(3, subject.getCd());
-			statement.setInt(4, num);
-			statement.setString(5, school.getCd());
+			statement.setString(3, school.getCd());
+			statement.setString(4, subject.getCd());
+			statement.setInt(5, num);
+
 			rSet = statement.executeQuery();
 
 			list = postFilter(rSet, school);
