@@ -1,7 +1,7 @@
 <!-- メニューJSP -->
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
-<c:import url="/common/base.jsp">	
+<c:import url="/common/base.jsp">
 	<c:param name="title">
 		得点管理システム メニュー
 	</c:param>
@@ -19,18 +19,18 @@
 					<div>
 						<div class="">成績管理</div>
 						<div class="">
-							<a href="#">成績登録</a>
+							<a href="TestRegist.action">成績登録</a>
 						</div>
 						<div class="">
-							<a href="#">成績参照</a>
+							<a href="TestList.action">成績参照</a>
 						</div>
 					</div>
 				</div>
-				<div class="col d-flex align-items-centerjustify-content-center mx-2 rounded shadow"
-					style="height:10rem;background-color:#bbd;">
-					<a href="#">科目管理</a>
+				<div class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
+					style="height: 10rem; background-color: #bbd;">
+					<a href="SubjectList.action">科目管理</a>
 				</div>
-				<div class="col d-flex align-items-centerjustify-content-center mx-2 rounded shadow"
+				<div class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
 					style="height:10rem;background-color:#ddb;">
 					<a href="#">クラス管理</a>
 				</div>
