@@ -28,7 +28,7 @@
 				</div>
 				<div class="col d-flex align-items-centerjustify-content-center mx-2 rounded shadow"
 					style="height:10rem;background-color:#bbd;">
-					<a href="#">科目管理</a>
+					<a href="SubjectList.action">科目管理</a>
 				</div>
 				<div class="col d-flex align-items-centerjustify-content-center mx-2 rounded shadow"
 					style="height:10rem;background-color:#ddb;">
