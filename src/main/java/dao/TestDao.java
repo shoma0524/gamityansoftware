@@ -89,6 +89,7 @@ public class TestDao extends Dao {
 				test.setSchool(school);
 				test.setNo(rSet.getInt("no"));
 				test.setPoint(rSet.getInt("point"));
+
 				list.add(test);
 			}
 
@@ -112,7 +113,7 @@ public class TestDao extends Dao {
 
 		try {
 			statement = connection.prepareStatement(
-					baseSql + "where ent_year=? and test.class_num=? and subject_cd=? and test.no=? and school_cd=?" + order);
+					baseSql + "where ent_year=? and test.class_num=? and subject_cd=? and test.no=? and school_cd=? " + order);
 			statement.setInt(1, entYear);
 			statement.setString(2, classNum);
 			statement.setString(3, subject.getCd());
