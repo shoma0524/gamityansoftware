@@ -1,11 +1,13 @@
 package scoremanager.main;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import bean.School;
+import bean.Student;
 import bean.Subject;
 import bean.Teacher;
+import bean.Test;
 import dao.SubjectDao;
 import dao.TestDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,47 +15,73 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
+/**
+ * 成績登録実行アクション
+ */
 public class TestRegistExecuteAction extends Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // セッションから学校情報を取得
+        // 1. セッションからログインユーザー
         HttpSession session = request.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
         School school = teacher.getSchool();
 
-        // リクエストパラメータ（検索条件）の取得
-        int entYear = Integer.parseInt(request.getParameter("ent_year"));
-        String classNum = request.getParameter("class_num");
-        String subjectCd = request.getParameter("subject_cd");
+        // 2. リクエストパラメータ（検索条件・回数）の取得
+        int entYear = Integer.parseInt(request.getParameter("f1"));
+        String classNum = request.getParameter("f2");
+        String subjectCd = request.getParameter("f3");
+        int num = Integer.parseInt(request.getParameter("f4"));
 
-        //  画面から入力された「点数」をMapなどで取得
-
-        String[] studentNos = request.getParameterValues("student_no_set[]");
-        Map<String, Integer> points = new HashMap<>();
-        
-        for (String no : studentNos) {
-            String pointStr = request.getParameter("point_" + no);
-            if (pointStr != null && !pointStr.isEmpty()) {
-                points.put(no, Integer.parseInt(pointStr));
-            }
-        }
-
-        // DAOを使ってDBへ保存
+        // 3. DAOの初期化と科目情報の取得
         TestDao tDao = new TestDao();
         SubjectDao sDao = new SubjectDao();
         Subject subject = sDao.get(subjectCd, school);
 
-        // シーケンス図にある保存処理の実行
-        boolean isSuccess = tDao.save(points, school, subject, entYear, classNum);
+        // 4. 保存用データの作成
+        List<Test> testList = new ArrayList<>();
+        
+        // JSP側の学生番号を配列で取得
+        // ※JSPのname属性が "student_no_set" であることを想定しています
+        String[] studentNos = request.getParameterValues("student_no_set");
 
-        // 5. 結果に応じた画面遷移
+        if (studentNos != null) {
+            for (String no : studentNos) {
+                // 各学生の点数を取得 (name="point_学生番号")
+                String pointStr = request.getParameter("point_" + no);
+                
+                // 点数が入力されている場合のみ、Testオブジェクトを作成してリストに追加
+                if (pointStr != null && !pointStr.isEmpty()) {
+                    int point = Integer.parseInt(pointStr);
+
+                    // Testビーンを組み立てる
+                    Test test = new Test();
+                    Student student = new Student();
+                    student.setNo(no); // 学生番号をセット
+                    
+                    test.setStudent(student);
+                    test.setSubject(subject);
+                    test.setSchool(school);
+                    test.setNo(num);         // 回数
+                    test.setPoint(point);     // 点数
+                    test.setClassNum(classNum);
+
+                    testList.add(test);
+                }
+            }
+        }
+
+        // TestDaoの既存メソッド save(List<Test>) を呼び出す
+        boolean isSuccess = tDao.save(testList);
+
+        // 処理結果による遷移先の決定
         if (isSuccess) {
-            // 登録完了画面、または元の画面にリダイレクト
-            request.getRequestDispatcher("test_regist_done.jsp").forward(request, response);
+            // 登録成功：完了画面へ
+            return "test_regist_done.jsp";
         } else {
+            // 登録失敗：エラーメッセージをセットして入力画面へ戻る
             request.setAttribute("errors", "登録に失敗しました。");
-            request.getRequestDispatcher("test_regist.jsp").forward(request, response);
+            return "test_regist.jsp";
         }
     }
 }
