@@ -200,7 +200,7 @@ public class TestDao extends Dao {
 			Test old = get(test.getStudent(), test.getSubject(), test.getSchool(), test.getNo());
 			if (old == null) {
 				statement = connection.prepareStatement(
-						"insert into test(student_no,subject_cd,school_cd,no,point,class_num) values(?,?,?,?,?,?)");
+						"insert into test(student_no,subject_cd,school_cd,no,point,class_num) values(?,?,?,?,?,?) ");
 				statement.setString(1, test.getStudent().getNo());
 				statement.setString(2, test.getSubject().getCd());
 				statement.setString(3, test.getSchool().getCd());
@@ -209,7 +209,7 @@ public class TestDao extends Dao {
 				statement.setString(6, test.getClassNum());
 			} else {
 				statement = connection.prepareStatement(
-						"update test set point=? where student_no=? and subject_cd=? and school_cd=? and no=?");
+						"update test set point=? where student_no=? and subject_cd=? and school_cd=? and no=? ");
 				statement.setInt(1, test.getPoint());
 				statement.setString(2, test.getStudent().getNo());
 				statement.setString(3, test.getSubject().getCd());
