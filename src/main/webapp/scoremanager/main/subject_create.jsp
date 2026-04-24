@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 
 <c:import url="/common/base.jsp">
-    <c:param name="tilte">得点管理システム 新規登録</c:param>
+    <c:param name="title">得点管理システム 新規登録</c:param>
     <c:param name="scripts"></c:param>
 
     <c:param name="content">
@@ -20,7 +20,7 @@
             <!-- 科目名 -->
              <div class="mb-3">
                 <label class="form-label fw-bold">科目名</label>
-                <input type="text" name="name" value="${cd}" class="form-control" placeholder="科目名を入力してください">
+                <input type="text" name="name" value="${name}" class="form-control" placeholder="科目名を入力してください">
                 <div class="text-danger small">${errors.name}</div>
              </div>
 

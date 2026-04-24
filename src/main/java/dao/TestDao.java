@@ -15,7 +15,8 @@ import bean.Test;
 public class TestDao extends Dao {
 
 	// ベースとなるSQL
-	private String baseSql = "select * from test left join student on test.student_no=student.no ";
+	// TESTテーブルとSTUDENTテーブルの学生番号で左結合
+	private String baseSql = "select * from test join student on test.student_no=student.no ";
 
 	/*
 	 * getメソッド: 学生, 科目, 学校, テストの回数を指定して、テストの情報を1件取得する
@@ -88,6 +89,7 @@ public class TestDao extends Dao {
 				test.setSchool(school);
 				test.setNo(rSet.getInt("no"));
 				test.setPoint(rSet.getInt("point"));
+
 				list.add(test);
 			}
 
@@ -100,7 +102,7 @@ public class TestDao extends Dao {
 
 	/*
 	 * filterメソッド: 入学年度, クラス番号, 科目, テストの回数, 学校を指定して、テストの一覧を取得する
-	 * 戻り値: Testクラスのインスタンスが格納されたリスト
+	 * 戻り値: Testクラスのインスタンスが格納されたリスト 並び順は学生番号の昇順
 	 * */
 	public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school) throws Exception {
 		List<Test> list = new ArrayList<>();
@@ -111,7 +113,7 @@ public class TestDao extends Dao {
 
 		try {
 			statement = connection.prepareStatement(
-					baseSql + "where ent_year=? and test.class_num=? and subject_cd=? and test.no=? and school_cd=?" + order);
+					baseSql + "where ent_year=? and test.class_num=? and subject_cd=? and test.no=? and school_cd=? " + order);
 			statement.setInt(1, entYear);
 			statement.setString(2, classNum);
 			statement.setString(3, subject.getCd());
