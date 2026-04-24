@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 			rel="stylesheet">
 		<title>${param.title}</title>
 		<script>${param.scripts }</script>
@@ -25,13 +25,13 @@
     				<a href="Logout.action" class="ms-2">ログアウト</a>
   				</div>
   				</c:if>
-			</div>		
+			</div>
 		</header>
 
 		<!-- メインレイアウト -->
-		
+
 		<div class="flex-grow-1 d-flex">
-	
+
 				<!-- サイドバー（ログイン時のみ表示） -->
 				<c:if test="${not empty sessionScope.user}">
 					<nav class="bg-white border-end p-3" style="width: 220px;">
@@ -44,23 +44,23 @@
 								<a class="nav-link" href="StudentList.action">学生管理</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">成績登録</a>
+								<a class="nav-link" href="TestRegist.action">成績登録</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">成績参照</a>
+								<a class="nav-link" href="TestList.action">成績参照</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">科目管理</a>
+								<a class="nav-link" href="SubjectList.action">科目管理</a>
 							</li>
 						</ul>
 					</nav>
 				</c:if>
-	
+
 				<!-- コンテンツ -->
 				<main class="flex-fill p-4">
 					${param.content}
 				</main>
-	
+
 		</div>
 		<footer class="bg-light border-top text-center py-3 ">
     		<small>© 2023 TIC<br>大原学園</small>
