@@ -50,7 +50,7 @@
 								<a class="nav-link" href="#">成績参照</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">科目管理</a>
+								<a class="nav-link" href="SubjectList.action">科目管理</a>
 							</li>
 						</ul>
 					</nav>

@@ -1,4 +1,4 @@
-<%--科目管理一覧JSP --%>
+	<%--科目管理一覧JSP --%>
 <%@page contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
@@ -14,28 +14,28 @@
                 <a href="SubjectCreate.action">新規登録</a>
             </div>
             <c:choose>
-                
-                    <table class="table table-hover">
-                        <tr>
-                            <th>科目コード</th>
-                            <th>科目名</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        <c:when test="${subjects.size()>0}">
-                            <c:forEach var="subject" items="${subjects}">
-                                <tr>
-                                    <td>${subject.cd}</td>
-                                    <td>${subject.name}</td>
-                                    <td><a href="SubjectUpdate.action?cd=${subject.cd}">変更</a></td>
-                                    <td><a href="SubjectDelete.action?cd=${subject.cd}">削除</a></td>
-                                </tr>
-                            </c:forEach>
-                        </c:when>
-                        <c:otherwise>
-                            <div></div>
-                        </c:otherwise>
-                    </table>
+				<c:when test="${subjects.size()>0}">
+	                 <table class="table table-hover">
+	                      <tr>
+	                          <th>科目コード</th>
+	                          <th>科目名</th>
+	                          <th></th>
+	                          <th></th>
+	                      </tr>
+
+                          <c:forEach var="subject" items="${subjects}">
+                              <tr>
+                                  <td>${subject.cd}</td>
+                                  <td>${subject.name}</td>
+                                  <td><a href="SubjectUpdate.action?cd=${subject.cd}">変更</a></td>
+                                  <td><a href="SubjectDelete.action?cd=${subject.cd}">削除</a></td>
+                              </tr>
+                          </c:forEach>
+	   				</table>
+	   			</c:when>
+                <c:otherwise>
+                    <div>科目情報が存在しませんでした。</div>
+                </c:otherwise>
             </c:choose>
         </section>
     </c:param>
