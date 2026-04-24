@@ -39,7 +39,7 @@ public class TestListSubjectDao extends Dao {
 				Integer test2Point = (Integer)rSet.getObject("test2_point");
 
 				// 2回のテストの両方の得点がnullならリストに追加しない
-				if (test1Point == null & test2Point == null) {
+				if (test1Point == null && test2Point == null) {
 					continue;
 				}
 
@@ -65,7 +65,7 @@ public class TestListSubjectDao extends Dao {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		ResultSet rSet = null;
-		String order = "order by test.student_no asc ";
+		String order = "order by student.no asc ";
 
 		try {
 			statement = connection.prepareStatement(baseSql
