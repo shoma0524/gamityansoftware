@@ -21,8 +21,8 @@ public class TestRegistAction extends Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
-        Teacher teacher = (Teacher) session.getAttribute("user");
-        
+        Teacher teacher = (Teacher)session.getAttribute("user");
+
         if (teacher == null) {
             return "login.jsp";
         }
@@ -31,10 +31,10 @@ public class TestRegistAction extends Action {
         // 1. 各種一覧データの準備
         SubjectDao sDao = new SubjectDao();
         ClassNumDao cDao = new ClassNumDao();
-        
+
         request.setAttribute("subjects", sDao.filter(school));
         request.setAttribute("class_num_set", cDao.filter(school));
-        
+
         // 入学年度リスト
         int year = LocalDate.now().getYear();
         List<Integer> entYears = new ArrayList<>();
@@ -53,13 +53,13 @@ public class TestRegistAction extends Action {
         if (entYearStr != null && classNum != null && subjectCd != null && numStr != null) {
             int entYear = Integer.parseInt(entYearStr);
             int num = Integer.parseInt(numStr);
-            
+
             TestDao tDao = new TestDao();
             Subject subject = sDao.get(subjectCd, school);
 
             // 成績一覧を取得
             List<Test> tests = tDao.filter(entYear, classNum, subject, num, school);
-            
+
             request.setAttribute("tests", tests);
         }
 

@@ -24,7 +24,7 @@ public class TestRegistExecuteAction extends Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 1. セッションからログインユーザー
         HttpSession session = request.getSession();
-        Teacher teacher = (Teacher) session.getAttribute("user");
+        Teacher teacher = (Teacher)session.getAttribute("user");
         School school = teacher.getSchool();
 
         // 2. リクエストパラメータ（検索条件・回数）の取得
@@ -40,7 +40,7 @@ public class TestRegistExecuteAction extends Action {
 
         // 4. 保存用データの作成
         List<Test> testList = new ArrayList<>();
-        
+
         // JSP側の学生番号を配列で取得
         // ※JSPのname属性が "student_no_set" であることを想定しています
         String[] studentNos = request.getParameterValues("student_no_set");
@@ -49,7 +49,7 @@ public class TestRegistExecuteAction extends Action {
             for (String no : studentNos) {
                 // 各学生の点数を取得 (name="point_学生番号")
                 String pointStr = request.getParameter("point_" + no);
-                
+
                 // 点数が入力されている場合のみ、Testオブジェクトを作成してリストに追加
                 if (pointStr != null && !pointStr.isEmpty()) {
                     int point = Integer.parseInt(pointStr);
@@ -58,7 +58,7 @@ public class TestRegistExecuteAction extends Action {
                     Test test = new Test();
                     Student student = new Student();
                     student.setNo(no); // 学生番号をセット
-                    
+
                     test.setStudent(student);
                     test.setSubject(subject);
                     test.setSchool(school);

@@ -65,7 +65,7 @@ public class TestListSubjectDao extends Dao {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		ResultSet rSet = null;
-		String order = "order by student.no asc ";
+		String order = "order by no asc ";
 
 		try {
 			statement = connection.prepareStatement(baseSql
