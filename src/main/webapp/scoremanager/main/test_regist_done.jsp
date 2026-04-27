@@ -14,7 +14,7 @@
         <div class="mt-3">
             <a href="TestRegist.action">戻る</a>
             &nbsp;&nbsp;
-            <a href="TestSearch.action">成績参照</a>
+            <a href="TestList.action">成績参照</a>
         </div>
     ' />
 

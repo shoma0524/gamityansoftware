@@ -1,11 +1,14 @@
 package scoremanager.main;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
 import bean.Subject;
 import bean.Teacher;
 import bean.TestListSubject;
+import dao.ClassNumDao;
 import dao.SubjectDao;
 import dao.TestListSubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,45 +28,48 @@ public class TestListSubjectExecuteAction extends Action {
         String entYearStr = request.getParameter("f1");
         String classNum = request.getParameter("f2");
         String subjectCd = request.getParameter("f3");
-        String numStr = request.getParameter("f4");
 
-        // 2. 未入力チェック
-        if (entYearStr == null || entYearStr.equals("0") ||
-            classNum == null || classNum.equals("0") ||
+        // 2. 共通データの準備 (プルダウン用)
+        SubjectDao sDao = new SubjectDao();
+        ClassNumDao cDao = new ClassNumDao();
+        
+        List<Integer> entYearSet = new ArrayList<>();
+        int currentYear = LocalDate.now().getYear();
+        for (int i = currentYear - 10; i <= currentYear; i++) {
+            entYearSet.add(i);
+        }
+        
+        List<String> classNumSet = cDao.filter(school);
+        List<Subject> subjects = sDao.filter(school);
+
+        // JSPに選択肢をセット
+        request.setAttribute("ent_year_set", entYearSet);
+        request.setAttribute("class_num_set", classNumSet);
+        request.setAttribute("subjects", subjects);
+
+        // 3. バリデーション
+        if (entYearStr == null || entYearStr.equals("0") || 
+            classNum == null || classNum.equals("0") || 
             subjectCd == null || subjectCd.equals("0")) {
 
             request.setAttribute("errors", "入学年度とクラスと科目を選択してください");
-            return "TestList.action";
+            return "test_list.jsp"; 
         }
 
         int entYear = Integer.parseInt(entYearStr);
-        int num = 0;
-        if (numStr != null && !numStr.isEmpty()) {
-            num = Integer.parseInt(numStr);
-        }
 
-        // 3. 画面表示用に科目情報を取得
-        SubjectDao sDao = new SubjectDao();
+        // 4. データ取得
         Subject subject = sDao.get(subjectCd, school);
-
-        // 4. 成績一覧を取得
-        /*
-        TestDao tDao = new TestDao();
-
-        List<Test> list = tDao.filter(entYear, classNum, subject, num, school);
-		*/
         TestListSubjectDao tLiSubDao = new TestListSubjectDao();
         List<TestListSubject> list = tLiSubDao.filter(entYear, classNum, subject, school);
 
-        // 5. JSPへ渡すデータをセット
+        // 5. 検索条件と結果をセット
         request.setAttribute("f1", entYear);
         request.setAttribute("f2", classNum);
         request.setAttribute("f3", subjectCd);
-        request.setAttribute("f4", num);
         request.setAttribute("subject", subject);
 
-        // 検索結果リスト
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             request.setAttribute("test_list_subject", list);
         } else {
             request.setAttribute("errors", "学生情報が存在しませんでした");
