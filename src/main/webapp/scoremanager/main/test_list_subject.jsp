@@ -3,13 +3,15 @@
 
 <c:set var="content" scope="request">
     <div class="p-1">
+        <%-- タイトルエリア --%>
         <div class="p-2 mb-3" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
             <h2 class="h5 m-0">成績一覧（科目）</h2>
         </div>
 
-        <%-- 検索フォームエリア --%>
+        <%-- 検索条件エリア --%>
         <div class="border p-3 mb-4" style="background-color: #fff;">
-            <form method="get" action="TestListSubjectExecute.action">
+            <form method="get" action="TestListSubject.action">
+                <%-- 科目情報での検索 --%>
                 <div class="row align-items-center g-3 mb-3">
                     <div class="col-auto">
                         <label class="small text-secondary">科目情報</label>
@@ -36,10 +38,28 @@
                         <label class="small d-block">科目</label>
                         <select name="f3" class="form-select form-select-sm" style="width: 200px;">
                             <option value="0">--------</option>
-                            <c:forEach var="sub" items="${subjects}">
-                                <option value="${sub.cd}" <c:if test="${sub.cd == f3}">selected</c:if>>${sub.name}</option>
+                            <c:forEach var="subject" items="${subjects}">
+                                <option value="${subject.cd}" <c:if test="${subject.cd == f3}">selected</c:if>>${subject.name}</option>
                             </c:forEach>
                         </select>
+                    </div>
+                    <div class="col-auto pt-4">
+                        <button type="submit" class="btn btn-secondary btn-sm px-4">検索</button>
+                    </div>
+                </div>
+            </form>
+
+            <hr>
+
+            <%-- 学生番号での検索 --%>
+            <form method="get" action="TestListStudent.action">
+                <div class="row align-items-center g-3">
+                    <div class="col-auto">
+                        <label class="small text-secondary">学生情報</label>
+                    </div>
+                    <div class="col-auto">
+                        <label class="small d-block">学生番号</label>
+                        <input type="text" name="f4" class="form-control form-control-sm" placeholder="学生番号を入力してください" style="width: 250px;">
                     </div>
                     <div class="col-auto pt-4">
                         <button type="submit" class="btn btn-secondary btn-sm px-4">検索</button>
@@ -50,7 +70,7 @@
 
         <%-- 結果表示エリア --%>
         <c:choose>
-            <c:when test="${not empty test_list_subject}">
+            <c:when test="${not empty tests}">
                 <div class="mb-2 fw-bold">科目：${subject.name}</div>
                 <table class="table table-sm table-hover border-top">
                     <thead>
@@ -64,13 +84,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="test" items="${test_list_subject}">
+                        <c:forEach var="test" items="${tests}">
                             <tr>
-                                <%-- 【重要】 .student を削除しました --%>
-                                <td>${test.entYear}</td>
-                                <td>${test.classNum}</td>
-                                <td>${test.no}</td>
-                                <td>${test.name}</td>
+                                <td>${test.student.entYear}</td>
+                                <td>${test.student.classNum}</td>
+                                <td>${test.studentNo}</td>
+                                <td>${test.studentName}</td>
                                 <td>${test.point[0]}</td>
                                 <td>${test.point[1]}</td>
                             </tr>
@@ -79,7 +98,9 @@
                 </table>
             </c:when>
             <c:otherwise>
-                <div class="text-danger small">${errors}</div>
+                <c:if test="${not empty f3}">
+                    <div class="text-danger small">学生情報が存在しませんでした</div>
+                </c:if>
             </c:otherwise>
         </c:choose>
     </div>
