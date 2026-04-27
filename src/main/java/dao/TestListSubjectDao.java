@@ -70,10 +70,10 @@ public class TestListSubjectDao extends Dao {
 		try {
 			statement = connection.prepareStatement(baseSql
 					+ "(select * from student where ent_year=? and class_num=?) "
-					+ "left join (select student_no, subject_cd, school_cd, no as test1_no, point as test1_point from test where subject_cd=? and school_cd=? and test1_no=1) as test1 "
-					+ "on student.no=test1.student_no "
-					+ "left join (select student_no, subject_cd, school_cd, no as test2_no, point as test2_point from test where subject_cd=? and school_cd=? and test2_no=2) as test2 "
-					+ "on student.no=test2.student_no "
+					+ "left join (select student_no as test1_student_no, subject_cd as test1_subject_cd, school_cd as test1_school_cd, no as test1_no, point as test1_point from test where subject_cd=? and school_cd=? and no=1) as test1 "
+					+ "on no=test1_student_no "
+					+ "left join (select student_no as test2_student_no, subject_cd as test2_subject_cd, school_cd as test2_school_cd, no as test2_no, point as test2_point from test where subject_cd=? and school_cd=? and no=2) as test2 "
+					+ "on no=test2_student_no "
 					+ order);
 			statement.setInt(1, entYear);
 			statement.setString(2, classNum);

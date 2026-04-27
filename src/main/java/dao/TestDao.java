@@ -118,8 +118,8 @@ public class TestDao extends Dao {
 		try {
 			statement = connection.prepareStatement(baseSql
 					+ "(select * from student where ent_year=? and class_num=? and school_cd=?) as student "
-					+ "left join (select student_no, subject_cd, school_cd, no as test_no, point from test where subject_cd=? and test_no=?) as test "
-					+ "on student.no = test.student_no "
+					+ "left join (select student_no, subject_cd, school_cd, no as test_no, point from test where subject_cd=? and no=?) as test "
+					+ "on no = student_no "
 					+ order);
 			statement.setInt(1, entYear);
 			statement.setString(2, classNum);
