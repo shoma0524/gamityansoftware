@@ -37,7 +37,7 @@ public class TestListStudentDao extends Dao {
 		return list;
 	}
 	
-	// 学校・入学年・クラス・在学フラグで絞り込み検索
+	// 学生番号で検索するメソッド
 	public List<TestListStudent> filter(Student student) 
 			throws Exception {
 		List<TestListStudent> list = new ArrayList<>();
