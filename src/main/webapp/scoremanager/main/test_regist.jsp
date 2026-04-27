@@ -93,9 +93,9 @@
                                     <!-- ★ 初回は空、エラー時は値保持 -->
                                     <input type="number"
                                         name="point_${item.student.no}"
-                                        value="${param['point_' += item.student.no]}"
+                                        value="${item.point}"
                                         min="0" max="100"
-                                        
+
                                         class="form-control"
                                         style="width: 100px;">
                                 </td>

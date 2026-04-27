@@ -62,7 +62,6 @@ public class TestRegistExecuteAction extends Action {
 
                 // ★ 未入力チェック（超重要）
                 if (pointStr == null || pointStr.isEmpty()) {
-                    hasError = true;
                     break;
                 }
 
@@ -84,10 +83,12 @@ public class TestRegistExecuteAction extends Action {
         }
 
         // ===== エラー時 =====
+        /*
         if (hasError) {
             request.setAttribute("errors", "未入力の点数があります");
             return "test_regist.jsp";
         }
+        */
 
         // ===== 保存 =====
         boolean isSuccess = tDao.save(testList);
