@@ -22,13 +22,13 @@ public class TestListStudentDao extends Dao {
 		
 		try {
 			while (rSet.next()) {
-				TestListStudent tls = new TestListStudent();
+				TestListStudent tlst = new TestListStudent();
 				
-				tls.setSubjectName(rSet.getString("name"));
-				tls.setSubjectCd(rSet.getString("subject_cd"));
-				tls.setNum(rSet.getInt("no"));
-				tls.setPoint(rSet.getInt("point"));
-				list.add(tls);
+				tlst.setSubjectName(rSet.getString("name"));
+				tlst.setSubjectCd(rSet.getString("subject_cd"));
+				tlst.setNum(rSet.getInt("no"));
+				tlst.setPoint(rSet.getInt("point"));
+				list.add(tlst);
 			}
 		} catch (SQLException  | NullPointerException e) {
 				e.printStackTrace();
