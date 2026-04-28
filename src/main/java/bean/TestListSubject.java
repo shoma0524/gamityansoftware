@@ -52,13 +52,14 @@ public class TestListSubject implements Serializable {
         this.points = points;
     }
 
+    // valueがnullのとき、文字列"null"を返す
     public String getPoint(int key) {
-        String value = points.get(key).toString();
+        String value = String.valueOf(points.get(key));
         return value;
     }
 
     public void  putPoint(int key, int value) {
-        points.put(key, value);    
+        points.put(key, value);
     }
 
 }
