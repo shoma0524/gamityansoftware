@@ -95,7 +95,6 @@
                                         name="point_${item.student.no}"
                                         value="${item.point}"
                                         min="0" max="100"
-
                                         class="form-control"
                                         style="width: 100px;">
                                 </td>
