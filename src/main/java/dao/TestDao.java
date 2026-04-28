@@ -92,8 +92,10 @@ public class TestDao extends Dao {
 				Object point = rSet.getObject("point");
 				if (point != null) {
 					test.setPoint((int)point);
+				} else {
+					// 得点がnullの生徒を除外したい場合、continue
+					// continue;
 				}
-
 				list.add(test);
 			}
 

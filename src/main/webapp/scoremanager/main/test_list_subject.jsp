@@ -67,7 +67,7 @@
 						</div>
 						<div class="col-auto">
 							<label class="small d-block">学生番号</label> <input type="text"
-								name="f4" class="form-control form-control-sm"
+								name="studentNo" class="form-control form-control-sm"
 								placeholder="学生番号を入力してください" style="width: 250px;">
 						</div>
 						<div class="col-auto pt-4">
