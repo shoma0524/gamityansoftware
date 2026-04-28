@@ -99,8 +99,18 @@
 									<td>${test.classNum}</td>
 									<td>${test.studentNo}</td>
 									<td>${test.studentName}</td>
-									<td>${test.point[0]}</td>
-									<td>${test.point[1]}</td>
+									<td>
+										<c:choose>
+											<c:when test='${test.getPoint(1) == "null"}'>-</c:when>
+											<c:otherwise>${test.getPoint(1)}</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<c:choose>
+											<c:when test='${test.getPoint(2) == "null"}'>-</c:when>
+											<c:otherwise>${test.getPoint(2)}</c:otherwise>
+										</c:choose>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
