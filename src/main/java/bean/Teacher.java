@@ -7,7 +7,8 @@ public class Teacher extends User implements Serializable {
 	private String id;	//ログインid
 	private String password;	//ログインパスワード
 	private String name;	//名前
-	private School school;	//学校情報
+	private School school;//学校情報
+	private String permission; //権限
 	
 	public String getId() {
 		return id;
@@ -39,5 +40,14 @@ public class Teacher extends User implements Serializable {
 	
 	public void setSchool(School school) {
 		this.school = school;
+	}
+	
+	
+	public String getPermission() {
+		return permission;
+	}
+	
+	public void setPermission(String permission) {
+		this.permission = permission;
 	}
 }
