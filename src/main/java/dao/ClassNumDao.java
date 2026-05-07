@@ -147,9 +147,9 @@ public class ClassNumDao extends Dao {
 		try {
 			statement = connection.prepareStatement(
 					"update class_num set class_num=? where school_cd=? and class_num=? ");
-			statement.setString(1, classNum.getClass_num());
+			statement.setString(1, newClassNum);
 			statement.setString(2, classNum.getSchool().getCd());
-			statement.setString(3, newClassNum);
+			statement.setString(3, classNum.getClass_num());
 
 			count = statement.executeUpdate();
 
