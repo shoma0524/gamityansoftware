@@ -8,24 +8,26 @@ import java.sql.SQLException;
 import bean.Teacher;
 
 public class TeacherDao extends Dao {
-	
+
 	// Teacherを1件取得するメソッド
 	public Teacher get(String id) throws Exception {
 		Teacher teacher = new Teacher();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
-		
+
 		try {
 			statement = connection.prepareStatement("select * from teacher where id = ?");
 			statement.setString(1, id);
 			ResultSet rSet = statement.executeQuery();
 			SchoolDao schoolDao = new SchoolDao();
-			
+			PermissionDao permissionDao = new PermissionDao();
+
 			if (rSet.next()) {
 				teacher.setId(rSet.getString("id"));
 				teacher.setName(rSet.getString("name"));
 				teacher.setPassword(rSet.getString("password"));
 				teacher.setSchool(schoolDao.get(rSet.getString("school_cd")));
+				teacher.setPermission(permissionDao.get(rSet.getString("permission_cd")));
 			} else {
 				teacher = null;
 			}
@@ -39,7 +41,7 @@ public class TeacherDao extends Dao {
 					throw sqle;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -48,28 +50,31 @@ public class TeacherDao extends Dao {
 				}
 			}
 		}
-		
+
 		return teacher;
 	}
-	
+
 //	ログイン認証を行うメソッド
 	public Teacher login(String id,String password) throws Exception {
 		Teacher teacher = new Teacher();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
-		
+
 		try {
 			statement = connection.prepareStatement(
 					"select * from teacher where id = ? and password = ?");
 			statement.setString(1, id);
-			statement.setString(2, password);			ResultSet rSet = statement.executeQuery();
+			statement.setString(2, password);
+			ResultSet rSet = statement.executeQuery();
 			SchoolDao schoolDao = new SchoolDao();
-			
+			PermissionDao permissionDao = new PermissionDao();
+
 			if (rSet.next()) {
 				teacher.setId(rSet.getString("id"));
 				teacher.setName(rSet.getString("name"));
 				teacher.setPassword(rSet.getString("password"));
 				teacher.setSchool(schoolDao.get(rSet.getString("school_cd")));
+				teacher.setPermission(permissionDao.get(rSet.getString("permission_cd")));
 			} else {
 				teacher = null;
 			}
@@ -83,7 +88,7 @@ public class TeacherDao extends Dao {
 					throw sqle;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -92,7 +97,7 @@ public class TeacherDao extends Dao {
 				}
 			}
 		}
-		
+
 		return teacher;
 	}
 }
