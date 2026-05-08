@@ -38,7 +38,7 @@
 					<c:if test="${sessionScope.user.permission.cd == '003'}">
 						<div class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
 						style="height:10rem;background-color:#bdd;">
-						<a href="#">先生管理</a>
+						<a href="TeacherList.action">先生管理</a>
 					</div>
 					</c:if>
 				</c:if>

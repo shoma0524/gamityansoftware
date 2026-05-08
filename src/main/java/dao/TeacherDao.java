@@ -172,9 +172,10 @@ public class TeacherDao extends Dao {
 				// 名前と権限の変更のみ
 				// パスワードと学校コードを変更する必要があるなら、SQLを書き換えてください
 				statement = connection.prepareStatement(
-						"update teacher set name=?, permission_cd=? where id=? ");
+						"update teacher set name=?, permission_cd=? school_cd=? where id=? ");
 				statement.setString(1, teacher.getName());
 				statement.setString(2, teacher.getPermission().getCd());
+				statement.setString(3, teacher.getSchool().getCd());
 				statement.setString(3, teacher.getId());
 			}
 
