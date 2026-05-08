@@ -49,12 +49,19 @@
 							<li class="nav-item">
 								<a class="nav-link" href="TestList.action">成績参照</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="SubjectList.action">科目管理</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="ClassList.action">クラス管理</a>
-							</li>
+							<c:if test="${sessionScope.user.permission.cd == '002' || sessionScope.user.permission.cd == '003'}">
+								<li class="nav-item">
+									<a class="nav-link" href="SubjectList.action">科目管理</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="ClassList.action">クラス管理</a>
+								</li>
+								<c:if test="${sessionScope.user.permission.cd == '003'}">
+									<li class="nav-item">
+										<a class="nav-link" href="ClassList.action">先生管理</a>
+									</li>
+								</c:if>
+							</c:if>
 						</ul>
 					</nav>
 				</c:if>
