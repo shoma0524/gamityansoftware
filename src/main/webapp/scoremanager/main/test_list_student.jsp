@@ -13,7 +13,7 @@
 
 		    <!-- 検索条件エリア -->
 		    <div class="border p-3 mb-4" style="background-color: #fff;">
-		        <form method="get" action="TestListStudent.action">
+		        <form method="get" action="TestListSubjectExecute.action">
 		            <!-- 科目情報での検索 -->
 		            <div class="row align-items-center g-3 mb-3">
 		                <div class="col-auto">
@@ -51,18 +51,18 @@
 		                </div>
 		            </div>
 		        </form>
-		
+
 		        <hr>
-		
+
 		        <!-- 学生番号での検索 -->
-		         <form method="get" action="TestListStudent.action">
+		         <form method="get" action="TestListStudentExecute.action">
 		            <div class="row align-items-center g-3">
 		                <div class="col-auto">
 		                    <label class="small text-secondary">学生情報</label>
 		                </div>
 		                <div class="col-auto">
 		                    <label class="small d-block">学生番号</label>
-		                    <input type="text" name="studentNo" value="${studentNo}" class="form-control form-control-sm" placeholder="学生番号を入力してください" style="width: 250px;"> 
+		                    <input type="text" name="studentNo" value="${studentNo}" class="form-control form-control-sm" placeholder="学生番号を入力してください" style="width: 250px;">
 		                </div>
 		                <div class="col-auto pt-4">
 		                    <button type="submit" class="btn btn-secondary btn-sm px-4">検索</button>
@@ -70,7 +70,7 @@
 		            </div>
 		         </form>
 		    </div>
-		    <!-- 結果表示エリア --> 
+		    <!-- 結果表示エリア -->
 		     <c:choose>
 		        <c:when test="${not empty test_list_student}">
 		            <div class="mb-2 fw-bold">氏名：${studentName}(${studentNo})</div>
@@ -96,7 +96,7 @@
 		            </table>
 		        </c:when>
 		        <c:otherwise>
-		                <div class="text-danger small">成績情報が存在しませんでした</div>       
+		                <div class="text-danger small">成績情報が存在しませんでした</div>
 		        </c:otherwise>
 		     </c:choose>
 		</div>
