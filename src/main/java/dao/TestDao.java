@@ -93,8 +93,8 @@ public class TestDao extends Dao {
 				if (point != null) {
 					test.setPoint((int)point);
 				} else {
-					// 得点がnullの生徒を除外したい場合、continue
-					// continue;
+					// 得点がnullの場合、-1 が入る
+					test.setPoint(-1);
 				}
 				list.add(test);
 			}
@@ -109,6 +109,7 @@ public class TestDao extends Dao {
 	/*
 	 * filterメソッド: 入学年度, クラス番号, 科目, テストの回数, 学校を指定して、テストの一覧を取得する
 	 * 戻り値: Testクラスのインスタンスが格納されたリスト 並び順は学生番号の昇順
+	 * 得点がnullの場合、得点には -1 が入る
 	 * */
 	public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school) throws Exception {
 		List<Test> list = new ArrayList<>();
@@ -199,6 +200,11 @@ public class TestDao extends Dao {
 		int count = 0;
 
 		try {
+			// 得点がマイナスなら、追加しない
+			if (test.getPoint() < 0) {
+				return true;
+			}
+
 			Test old = get(test.getStudent(), test.getSubject(), test.getSchool(), test.getNo());
 			if (old == null) {
 				statement = connection.prepareStatement(

@@ -93,7 +93,9 @@
                                     <!-- ★ 初回は空、エラー時は値保持 -->
                                     <input type="number"
                                         name="point_${item.student.no}"
+                                        <c:if test="${item.point >= 0}">
                                         value="${item.point}"
+                                        </c:if>
                                         min="0" max="100"
                                         class="form-control"
                                         style="width: 100px;">
