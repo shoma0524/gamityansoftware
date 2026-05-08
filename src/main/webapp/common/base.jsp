@@ -52,6 +52,9 @@
 							<li class="nav-item">
 								<a class="nav-link" href="SubjectList.action">科目管理</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="ClassList.action">クラス管理</a>
+							</li>
 						</ul>
 					</nav>
 				</c:if>
