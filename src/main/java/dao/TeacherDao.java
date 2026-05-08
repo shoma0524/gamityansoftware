@@ -100,4 +100,55 @@ public class TeacherDao extends Dao {
 
 		return teacher;
 	}
+
+	// 先生情報の登録 or 更新を行うメソッド
+	public boolean save(Teacher teacher) throws Exception {
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		int count = 0;
+
+		try {
+			Teacher old = get(teacher.getId());
+			if (old == null) {
+				statement = connection.prepareStatement(
+						"insert into teacher(id,password,name,school_cd,permission_cd) "
+						+ "values(?,?,?,?,?) ");
+				statement.setString(1, teacher.getId());
+				statement.setString(2, teacher.getPassword());
+				statement.setString(3, teacher.getName());
+				statement.setString(4, teacher.getSchool().getCd());
+				statement.setString(5, teacher.getPermission().getCd());
+			} else {
+				// 名前と権限の変更のみ
+				// パスワードと学校コードを変更する必要があるなら、SQLを書き換えてください
+				statement = connection.prepareStatement(
+						"update teacher set name=?, permission_cd=? where id=? ");
+				statement.setString(1, teacher.getName());
+				statement.setString(2, teacher.getPermission().getCd());
+				statement.setString(3, teacher.getId());
+			}
+
+			count = statement.executeUpdate();
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+		}
+
+		return count > 0;
+	}
 }
