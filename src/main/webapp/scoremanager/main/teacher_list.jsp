@@ -32,7 +32,7 @@
 								<td>${teacher.name}</td>
 								<td>${teacher.school.name}</td>
 								<td>${teacher.permission.name}</td>
-								<td><a href="#">変更</a></td>
+								<td><a href="TeacherUpdate.action?id=${teacher.id}">変更</a></td>
 								<td><a href="#">削除</a></td>
 							</tr>
 						</c:forEach>

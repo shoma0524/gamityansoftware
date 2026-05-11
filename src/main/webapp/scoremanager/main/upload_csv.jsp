@@ -38,7 +38,7 @@
 	                        登録して終了
 	                    </button>
 	
-	                    <a href="menu.jsp" class="btn btn-secondary px-5">
+	                    <a href="StudentList.action" class="btn btn-secondary px-5">
 	                        戻る
 	                    </a>
 	                </div>

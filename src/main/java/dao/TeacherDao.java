@@ -169,14 +169,14 @@ public class TeacherDao extends Dao {
 				statement.setString(4, teacher.getSchool().getCd());
 				statement.setString(5, teacher.getPermission().getCd());
 			} else {
-				// 名前と権限の変更のみ
-				// パスワードと学校コードを変更する必要があるなら、SQLを書き換えてください
+				// 名前と権限と学校コードの変更のみ
+				// パスワードを変更する必要があるなら、SQLを書き換えてください
 				statement = connection.prepareStatement(
-						"update teacher set name=?, permission_cd=? school_cd=? where id=? ");
+						"update teacher set name=?, permission_cd=?, school_cd=? where id=? ");
 				statement.setString(1, teacher.getName());
 				statement.setString(2, teacher.getPermission().getCd());
 				statement.setString(3, teacher.getSchool().getCd());
-				statement.setString(3, teacher.getId());
+				statement.setString(4, teacher.getId());
 			}
 
 			count = statement.executeUpdate();
