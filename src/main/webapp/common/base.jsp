@@ -58,7 +58,7 @@
 								</li>
 								<c:if test="${sessionScope.user.permission.cd == '003'}">
 									<li class="nav-item">
-										<a class="nav-link" href="TeacherList.action">先生管理</a>
+										<a class="nav-link" href="TeacherList.action">教員管理</a>
 									</li>
 								</c:if>
 							</c:if>

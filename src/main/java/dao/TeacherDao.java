@@ -104,7 +104,7 @@ public class TeacherDao extends Dao {
 		return teacher;
 	}
 
-	// 指定された学校の先生一覧を取得するメソッド
+	// 指定された学校の教員一覧を取得するメソッド
 		public List<Teacher> filter(School school)
 				throws Exception {
 			List<Teacher> list = new ArrayList<>();
@@ -121,7 +121,7 @@ public class TeacherDao extends Dao {
 
 				while (rSet.next()) {
 					Teacher teacher = new Teacher();
-					
+
 					teacher.setId(rSet.getString("id"));
 					teacher.setName(rSet.getString("name"));
 					teacher.setSchool(school);
@@ -150,8 +150,8 @@ public class TeacherDao extends Dao {
 
 			return list;
 		}
-	
-	// 先生情報の登録 or 更新を行うメソッド
+
+	// 教員情報の登録 or 更新を行うメソッド
 	public boolean save(Teacher teacher) throws Exception {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
@@ -202,8 +202,8 @@ public class TeacherDao extends Dao {
 
 		return count > 0;
 	}
-	
-	  // 先生情報の削除を行うメソッド
+
+	  // 教員情報の削除を行うメソッド
     public boolean delete(Teacher teacher) throws Exception {
         Connection connection = getConnection();
         PreparedStatement statement = null;

@@ -1,18 +1,18 @@
-<!-- 先生情報の変更JSP -->
+<!-- 教員情報の変更JSP -->
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <c:import url="/common/base.jsp">
-    <c:param name="title">得点管理システム 先生更新</c:param>
+    <c:param name="title">得点管理システム 教員情報変更</c:param>
     <c:param name="scripts"></c:param>
 
     <c:param name="content">
-    		<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">先生情報変更</h2>
+    		<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">教員情報変更</h2>
         <form action="TeacherUpdateExecute.action" method="post" class="container mt-4" style="max-width: 500px;">
 
-            <!-- ID(書き換え不可) -->
+            <!-- 教員ID(書き換え不可) -->
             <div class="mb-3">
-                <label class="form-label fw-bold">ID</label>
+                <label class="form-label fw-bold">教員ID</label>
                 <input type="text" name="id" value="${teacher.id}" class="form-control" readonly>
             </div>
 
@@ -43,7 +43,7 @@
                     </c:forEach>
                 </select>
             </div>
-            
+
 
             <!-- ボタン -->
             <div class="d-flex gap-2 mt-4">
