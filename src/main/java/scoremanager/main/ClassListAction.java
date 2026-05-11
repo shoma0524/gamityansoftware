@@ -1,14 +1,13 @@
 package scoremanager.main;
 
-import tool.Action;
 import java.util.List;
-import bean.ClassNum;
+
 import bean.Teacher;
 import dao.ClassNumDao;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import tool.Action;
 
 //クラス一覧を出すjava
 public class ClassListAction extends Action {
@@ -21,6 +20,11 @@ public class ClassListAction extends Action {
 
         //セッションからログイン中のユーザー(Teacher)を取得
         Teacher teacher = (Teacher)session.getAttribute("user");
+        
+        if (!"silver".equals(teacher.getPermission().getName()) && !"gold".equals(teacher.getPermission().getName())) {
+        	request.setAttribute("error", "permission");
+            return "/error.jsp";
+        }
 
         ClassNumDao cnDao=new ClassNumDao();
 

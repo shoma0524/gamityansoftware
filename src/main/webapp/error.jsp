@@ -8,7 +8,19 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 			<div class="container mt-5">
-				<p>エラーが発生しました。</p>
+				<c:choose>
+
+				<c:when test="${error == 'permission'}">
+					<p>あなたの権限ではアクセスできません。</p>
+					<br><br><br>
+					<a href="menu.jsp">メニューへ</a>
+				</c:when>
+
+				<c:otherwise>
+					<p>エラーが発生しました。</p>
+				</c:otherwise>
+
+				</c:choose>
 			</div>
 	</c:param>
 </c:import>

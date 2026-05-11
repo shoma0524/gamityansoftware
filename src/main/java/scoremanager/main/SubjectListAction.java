@@ -1,15 +1,14 @@
 package scoremanager.main;
 
-import tool.Action;
-import bean.Teacher;
-import dao.SubjectDao;
-
 import java.util.List;
 
 import bean.Subject;
+import bean.Teacher;
+import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import tool.Action;
 
 //科目一覧を出すクラス
 public class SubjectListAction extends Action {
@@ -23,6 +22,11 @@ public class SubjectListAction extends Action {
         //セッションからログイン中のユーザー(Teacher)を取得
         Teacher teacher= (Teacher)session.getAttribute("user");
 
+        if (!"silver".equals(teacher.getPermission().getName()) && !"gold".equals(teacher.getPermission().getName())) {
+        	request.setAttribute("error", "permission");
+            return "/error.jsp";
+        }        
+        
         SubjectDao sDao=new SubjectDao();
 
         List<Subject> subjects=sDao.filter(teacher.getSchool());

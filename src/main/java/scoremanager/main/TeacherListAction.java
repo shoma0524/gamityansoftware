@@ -21,6 +21,11 @@ public class TeacherListAction extends Action {
         //セッションからログイン中のユーザー(Teacher)を取得
         Teacher teacher = (Teacher)session.getAttribute("user");
 
+        if (!"gold".equals(teacher.getPermission().getName())) {
+        	request.setAttribute("error", "permission");
+            return "/error.jsp";
+        }        
+        
         TeacherDao dao=new TeacherDao();
 
         List<Teacher> teachers= dao.filter(teacher.getSchool());
