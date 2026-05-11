@@ -22,10 +22,10 @@ public class SubjectListAction extends Action {
         //セッションからログイン中のユーザー(Teacher)を取得
         Teacher teacher= (Teacher)session.getAttribute("user");
 
-        if (!"silver".equals(teacher.getPermission().getName()) && !"gold".equals(teacher.getPermission().getName())) {
+        if (!"002".equals(teacher.getPermission().getCd()) && !"003".equals(teacher.getPermission().getCd())) {
         	request.setAttribute("error", "permission");
             return "/error.jsp";
-        }        
+        }      
         
         SubjectDao sDao=new SubjectDao();
 

@@ -21,7 +21,7 @@ public class TeacherListAction extends Action {
         //セッションからログイン中のユーザー(Teacher)を取得
         Teacher teacher = (Teacher)session.getAttribute("user");
 
-        if (!"gold".equals(teacher.getPermission().getName())) {
+        if (!"003".equals(teacher.getPermission().getCd())) {
         	request.setAttribute("error", "permission");
             return "/error.jsp";
         }        
