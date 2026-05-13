@@ -29,6 +29,26 @@ public class LoginExecuteAction extends Action {
         TeacherDao dao = new TeacherDao();
         Teacher teacher = dao.login(id, password);
        
+        // 半角英数字チェック
+        if (!password.matches("^[a-zA-Z0-9]+$") || !id.matches("^[a-zA-Z0-9]+$")) {
+
+            request.setAttribute(
+                "error",
+                "半角英数字のみ入力してください"
+            );
+
+            return "login.jsp";
+        }
+        
+        //文字数チェック
+        if(id.length() > 10 || password.length() > 30) {
+        	request.setAttribute(
+        		"error",
+        		"IDは10文字、パスワードは30文字以内で　　　　　入力してください"
+        		);
+        	
+        	return "login.jsp";
+        }
         
         // 認証結果チェック
         if (teacher != null) {
@@ -41,7 +61,9 @@ public class LoginExecuteAction extends Action {
         } else {
 
             // ログイン失敗
-            request.setAttribute("error", "ログインに失敗しました");
+            request.setAttribute(
+            		"error", 
+            		"IDまたはパスワードが違います");
             request.setAttribute("id", id);
 
             return "login.jsp";

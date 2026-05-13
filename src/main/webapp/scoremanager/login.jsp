@@ -34,18 +34,32 @@
             <form action="LoginExecute.action" method="post">
 
                 <!-- ID -->
-                <div class="mb-3">
-                    <input type="text" name="id" class="form-control"
-                           placeholder="ID"
-                           value="${id}"  style = "background-color:#e0ffff;" required>
-                </div>
+				<div class="mb-3">
+					<label for="password" class="form-label">ID</label>
+				
+				    <input type="text"
+				           name="id"
+				           class="form-control"
+				           id="floatingId"
+				           placeholder="半角でご入力ください"
+				           value="${id}"
+				           style="background-color:#e0ffff;"
+				           required>
+
+				</div>
 
                 <!-- パスワード -->
-                <div class="mb-3">
-                    <input type="password" name="password" id="password"
-                           class="form-control"
-                           placeholder="パスワード" style = "background-color:#e0ffff;" required>
-                </div>
+				<div class="mb-3">
+				    <label for="password" class="form-label">パスワード</label>
+				
+				    <input type="password"
+				           name="password"
+				           id="password"
+				           class="form-control"
+				           placeholder="30文字以内の半角英数字でご入力ください"
+				           style="background-color:#e0ffff;"
+				           required>
+				</div>
 
                 <!-- 表示チェック -->
                 <div class="form-check mb-3">
