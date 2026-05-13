@@ -21,7 +21,7 @@
 			            </div>
 			
 			            <div class="text-center">
-			                <a href="StudentUpdate.action">戻る</a>
+			                
 			                &nbsp;&nbsp;&nbsp;&nbsp;
 			                <a href="StudentList.action">学生一覧</a>
 			            </div>
