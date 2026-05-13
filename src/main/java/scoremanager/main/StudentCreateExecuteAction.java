@@ -1,10 +1,14 @@
 package scoremanager.main;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import bean.Student;
 import bean.Teacher;
+import dao.ClassNumDao;
 import dao.StudentDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +33,17 @@ public class StudentCreateExecuteAction extends Action {
 
         Map<String,String> errors = new HashMap<>();
 
+        // エラーが起きた場合に送る入学年度とクラス
+        int year = LocalDate.now().getYear();
+        List<Integer> entYearSet = new ArrayList<>();
+        for (int i = year - 10; i <= year; i++) {
+        	entYearSet.add(i);
+        }
+
+        // クラス一覧
+        ClassNumDao cdao = new ClassNumDao();
+        List<String> classList = cdao.filter(teacher.getSchool());
+
         // 入力チェック
         if (entYearStr == null || entYearStr.equals("0")) {
             errors.put("entYear", "入学年度を選択してください");
@@ -45,17 +60,19 @@ public class StudentCreateExecuteAction extends Action {
         // エラーがあれば戻る
         if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);
-            request.getRequestDispatcher("student_create.jsp")
-                   .forward(request, response);
+            request.setAttribute("ent_year_set", entYearSet);
+            request.setAttribute("class_num_set", classList);
             return "student_create.jsp";
         }
 
-        StudentDao dao = new StudentDao();
+        StudentDao sdao = new StudentDao();
 
         // 重複チェック
-        if (dao.get(no) != null) {
+        if (sdao.get(no) != null) {
             errors.put("no", "学生番号が重複しています");
             request.setAttribute("errors", errors);
+            request.setAttribute("ent_year_set", entYearSet);
+            request.setAttribute("class_num_set", classList);
             return "student_create.jsp";
         }
 
@@ -68,7 +85,7 @@ public class StudentCreateExecuteAction extends Action {
         student.setSchool(teacher.getSchool());
         student.setIsAttend(true);
 
-        dao.save(student);
+        sdao.save(student);
 
         return "student_create_done.jsp";
     }
