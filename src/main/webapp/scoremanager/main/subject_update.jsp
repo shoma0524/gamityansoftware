@@ -16,6 +16,13 @@
                 <input type="text" name="cd" value="${subject.cd}" class="form-control" readonly>
             </div>
 
+            <%-- エラーメッセージ表示 --%>
+            <c:if test="${error != null}">
+                <div class="alert alert-danger">
+                    ${errors}
+                </div>
+            </c:if>
+
             <%-- 科目名 --%>
             <div class="mb-3">
                 <label class="form-label fw-bold">科目名</label>
