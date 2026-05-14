@@ -24,6 +24,11 @@ public class TestRegistExecuteAction extends Action {
 
 		HttpSession session = request.getSession();
 		Teacher teacher = (Teacher) session.getAttribute("user");
+
+        // 事前条件チェック
+        if (teacher == null) {
+            return "redirect:../Login.action";
+        }
 		School school = teacher.getSchool();
 
 		// ===== パラメータ取得 =====
@@ -93,6 +98,9 @@ public class TestRegistExecuteAction extends Action {
 					errors.put(no, "半角数字で入力してください");
 					hasError = true;
 					continue;
+				} else if (pointStr.length() > 10) {
+					errors.put(no, "入力上限を超えています");
+					hasError = true;
 				}
 
 				int point = Integer.parseInt(pointStr);

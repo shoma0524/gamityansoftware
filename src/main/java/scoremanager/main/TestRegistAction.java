@@ -26,10 +26,10 @@ public class TestRegistAction extends Action {
 		HttpSession session = request.getSession();
 		Teacher teacher = (Teacher) session.getAttribute("user");
 
-		if (teacher == null) {
-			return "login.jsp";
-		}
-
+        // 事前条件チェック
+        if (teacher == null) {
+            return "redirect:../Login.action";
+        }
 		School school = teacher.getSchool();
 
 		// 1. 各種一覧データの準備

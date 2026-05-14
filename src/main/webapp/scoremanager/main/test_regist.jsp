@@ -84,9 +84,10 @@
 								<td>${item.student.name}</td>
 								<td>
 									<!-- ★ 初回は空、エラー時は値保持 -->
-									<input type="text" name="point_${item.student.no}" inputmode="numeric"
+									<input type="text" name="point_${item.student.no}" class="form-control"
+									inputmode="numeric" maxlength="10"
 									<c:if test="${item.point >= 0}">value="${item.point}"</c:if>
-									class="form-control" style="width: 180px;">
+									 style="width: 180px;">
 									<div class="text-danger small">${errors[item.student.no.toString()]}</div>
 								</td>
 							</tr>

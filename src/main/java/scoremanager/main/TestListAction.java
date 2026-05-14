@@ -17,30 +17,30 @@ public class TestListAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HttpSession session = request.getSession();
-        Teacher teacher = (Teacher)session.getAttribute("user");
+		HttpSession session = request.getSession();
+		Teacher teacher = (Teacher) session.getAttribute("user");
 
+        // 事前条件チェック
         if (teacher == null) {
-            return "login.jsp";
+            return "redirect:../Login.action";
         }
-        School school = teacher.getSchool();
+		School school = teacher.getSchool();
 
-        // 1. 各種一覧データの準備
-        SubjectDao sDao = new SubjectDao();
-        ClassNumDao cDao = new ClassNumDao();
+		// 1. 各種一覧データの準備
+		SubjectDao sDao = new SubjectDao();
+		ClassNumDao cDao = new ClassNumDao();
 
-        request.setAttribute("subjects", sDao.filter(school));
-        request.setAttribute("class_num_set", cDao.filter(school));
+		request.setAttribute("subjects", sDao.filter(school));
+		request.setAttribute("class_num_set", cDao.filter(school));
 
-        // 入学年度リスト
-        int year = LocalDate.now().getYear();
-        List<Integer> entYears = new ArrayList<>();
-        for (int i = year - 10; i <= year; i++) {
-            entYears.add(i);
-        }
-        request.setAttribute("ent_year_set", entYears);
+		// 入学年度リスト
+		int year = LocalDate.now().getYear();
+		List<Integer> entYears = new ArrayList<>();
+		for (int i = year - 10; i <= year; i++) {
+			entYears.add(i);
+		}
+		request.setAttribute("ent_year_set", entYears);
 
-
-        return "test_list.jsp";
+		return "test_list.jsp";
 	}
 }
