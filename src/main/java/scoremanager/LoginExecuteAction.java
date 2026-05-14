@@ -1,5 +1,8 @@
 package scoremanager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bean.Teacher;
 import dao.TeacherDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,38 +20,47 @@ public class LoginExecuteAction extends Action {
     	
         String id = request.getParameter("id");
         String password = request.getParameter("password");
+        List<String> errors = new ArrayList<>();
 
         // 未入力チェック
-        if (id == null || id.isEmpty() ||
-            password == null || password.isEmpty()) {
-
-            request.setAttribute("error", "IDとパスワードを入力してください");
-            return "login.jsp";
+        if (id == null || id.isEmpty()) {
+        	
+        	errors.add("IDを入力してください");
+        }
+        
+        if (password == null || password.isEmpty()) {
+        	
+        	errors.add("パスワードを入力してください");
         }
 
-        TeacherDao dao = new TeacherDao();
-        Teacher teacher = dao.login(id, password);
-       
         // 半角英数字チェック
         if (!password.matches("^[a-zA-Z0-9]+$") || !id.matches("^[a-zA-Z0-9]+$")) {
+        	
+        	errors.add("半角英数字のみ入力してください");
+        }
+        
+        //文字数チェック
+        if(id.length() > 10) {
+        	
+        	errors.add("IDは10文字以内で入力してください");     	
+        }
+        
+        if(password.length() > 30) {
+        	
+        	errors.add("パスワードは30文字以内で入力してください");
+        }
+        
+        // エラーがある場合
+        if (!errors.isEmpty()) {
 
-            request.setAttribute(
-                "error",
-                "半角英数字のみ入力してください"
-            );
+            request.setAttribute("errors", errors);
 
             return "login.jsp";
         }
         
-        //文字数チェック
-        if(id.length() > 10 || password.length() > 30) {
-        	request.setAttribute(
-        		"error",
-        		"IDは10文字、パスワードは30文字以内で　　　　　入力してください"
-        		);
-        	
-        	return "login.jsp";
-        }
+        TeacherDao dao = new TeacherDao();
+        Teacher teacher = dao.login(id, password);
+       
         
         // 認証結果チェック
         if (teacher != null) {
@@ -61,9 +73,7 @@ public class LoginExecuteAction extends Action {
         } else {
 
             // ログイン失敗
-            request.setAttribute(
-            		"error", 
-            		"IDまたはパスワードが違います");
+        	errors.add("IDまたはパスワードが違います");
             request.setAttribute("id", id);
 
             return "login.jsp";
