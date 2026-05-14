@@ -74,6 +74,7 @@ public class LoginExecuteAction extends Action {
 
             // ログイン失敗
         	errors.add("IDまたはパスワードが違います");
+        	request.setAttribute("errors", errors);
             request.setAttribute("id", id);
 
             return "login.jsp";
