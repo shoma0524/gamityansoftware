@@ -22,17 +22,6 @@ public class LoginExecuteAction extends Action {
         String password = request.getParameter("password");
         List<String> errors = new ArrayList<>();
 
-        // 未入力チェック
-        if (id == null || id.isEmpty()) {
-        	
-        	errors.add("IDを入力してください");
-        }
-        
-        if (password == null || password.isEmpty()) {
-        	
-        	errors.add("パスワードを入力してください");
-        }
-
         // 半角英数字チェック
         if (!password.matches("^[a-zA-Z0-9]+$") || !id.matches("^[a-zA-Z0-9]+$")) {
         	
