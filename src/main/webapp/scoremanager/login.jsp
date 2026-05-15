@@ -47,7 +47,7 @@
 				           id="floatingId"
 				           placeholder="半角でご入力ください"
 				           value="${id}"
-				           style="background-color:#e0ffff;"
+				           style="background-color:#A0DAFF;"
 				           required>
 
 				</div>
@@ -61,7 +61,7 @@
 				           id="password"
 				           class="form-control"
 				           placeholder="30文字以内の半角英数字でご入力ください"
-				           style="background-color:#e0ffff;"
+				           style="background-color:#A0DAFF;"
 				           required>
 				</div>
 

@@ -15,14 +15,14 @@
 
 		<!-- ヘッダー -->
 		<header>
-			<div class=" p-3 d-flex justify-content-between border-bottom" style = "background-color:#e0ffff;">
+			<div class=" p-3 d-flex justify-content-between border-bottom" style = "background-color:#A0DAFF;">
   				<a href="menu.jsp" class="text-decoration-none text-reset">
 				    <h1 class="h4 m-0">得点管理システム</h1>
 				</a>
 				<c:if test="${not empty sessionScope.user}">
   				<div>
     				<span>${sessionScope.user.name} 様</span>
-    				<a href="Logout.action" class="ms-2">ログアウト</a>
+    				<a href="Logout.action" class="ms-2 btn btn-outline-light btn-sm fw-bold"">ログアウト</a>
   				</div>
   				</c:if>
 			</div>
