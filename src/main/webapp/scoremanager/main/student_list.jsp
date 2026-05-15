@@ -1,7 +1,6 @@
 <%-- 学生一覧JSP --%>
-<%@page contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <c:import url="/common/base.jsp">
 	<c:param name="title">
 		得点管理システム 学生管理
@@ -11,27 +10,28 @@
 		<section class="me=4">
 			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">学生管理</h2>
 			<div class="my-2 text-end px-4">
-				<a href="StudentCreate.action">新規登録</a>
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="upload_csv.jsp">CSV登録</a>
+				<a href="StudentCreate.action">新規登録</a> &nbsp;&nbsp;&nbsp;&nbsp; <a
+					href="upload_csv.jsp">CSV登録</a>
 			</div>
 			<form method="get">
-				<div class="row border mx-3 mb-3 py-2 align-items-center rounded" id="filter">
+				<div class="row border mx-3 mb-3 py-2 align-items-center rounded"
+					id="filter">
 					<div class="col-4">
-						<label class="form-label" for="student-f1-select">入学年度</label>
-						<select class="form-select" id="student-f1-select" name="f1">
+						<label class="form-label" for="student-f1-select">入学年度</label> <select
+							class="form-select" id="student-f1-select" name="f1">
 							<option value="0">-------</option>
 							<c:forEach var="year" items="${ent_year_set }">
-								<option value="${year }"<c:if test="${year==f1 }">selected</c:if>>${year }</option>
+								<option value="${year }"
+									<c:if test="${year==f1 }">selected</c:if>>${year }</option>
 							</c:forEach>
 						</select>
 					</div>
 					<div class="col-4">
-						<label class="form-label" for="student-f2-select">クラス</label>
-						<select class="form-select" id="student-f2-select" name="f2">
+						<label class="form-label" for="student-f2-select">クラス</label> <select
+							class="form-select" id="student-f2-select" name="f2">
 							<option value="0">-------</option>
 							<c:forEach var="num" items="${class_num_set }">
-								<option value="${num }"<c:if test="${num==f2 }">selected</c:if>>${num }</option>
+								<option value="${num }" <c:if test="${num==f2 }">selected</c:if>>${num }</option>
 							</c:forEach>
 						</select>
 					</div>
@@ -48,7 +48,7 @@
 					<div class="mt-2 text-warning">${errors.get("f1") }</div>
 				</div>
 			</form>
-			
+
 			<c:choose>
 				<c:when test="${students.size()>0 }">
 					<div>検索結果：${students.size() }件</div>
@@ -62,23 +62,26 @@
 							<th></th>
 							<th></th>
 						</tr>
-						<c:forEach var="student" items="${students }">
+						<c:forEach var="student" items="${students}">
 							<tr>
-								<td>${student.entYear }</td>
-								<td>${student.no }</td>
-								<td>${student.name }</td>
-								<td>${student.classNum }</td>
-								<td class="text-center">
-									<c:choose>
-										<c:when test="${student.getIsAttend() }">
-											〇
-										</c:when>
-										<c:otherwise>
-											×
-										</c:otherwise>
-									</c:choose>
+								<%-- 数値であっても、基本はc:outを使うのが安全で一貫性があります --%>
+								<td><c:out value="${student.entYear}" /></td>
+								<td><c:out value="${student.no}" /></td>
+
+								<%-- 1. 最も危険な「名前」：必ずエスケープ --%>
+								<td><c:out value="${student.name}" /></td>
+
+								<td><c:out value="${student.classNum}" /></td>
+
+								<td class="text-center"><c:choose>
+										<c:when test="${student.getIsAttend()}">〇</c:when>
+										<c:otherwise>×</c:otherwise>
+									</c:choose></td>
+
+								<%-- 2. URLのパラメータ：URLエンコードが必要 --%>
+								<td><a
+									href="StudentUpdate.action?no=<c:out value='${student.no}' />">変更</a>
 								</td>
-								<td><a href="StudentUpdate.action?no=${student.no }">変更</a></td>
 							</tr>
 						</c:forEach>
 					</table>

@@ -36,7 +36,7 @@ public class StudentUpdateExecuteAction extends Action {
 
         //  入力チェック
         if (name == null || name.isEmpty()) {
-            errors.put("name", "氏名を入力してください");
+            errors.put("name", "このフィールドを入力してください");
         }
 
         // エラーがある場合の処理
