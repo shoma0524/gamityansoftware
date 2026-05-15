@@ -21,6 +21,11 @@ public class TeacherCreateExecuteAction extends Action {
 		// セッションからログイン中のユーザー（Teacher）を取得
 		Teacher teacher = (Teacher) session.getAttribute("user");
 
+		// 事前条件チェック
+		if (teacher == null) {
+			return "redirect:../Login.action";
+		}
+
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
 		String password1 = request.getParameter("password1");
