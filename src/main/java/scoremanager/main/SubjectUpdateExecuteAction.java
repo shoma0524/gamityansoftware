@@ -19,12 +19,31 @@ public class SubjectUpdateExecuteAction extends Action {
         String cd = request.getParameter("cd");
         String name = request.getParameter("name");
 
+        SubjectDao sDao = new SubjectDao();
+
+        // DBに存在確認
+        Subject oldSubject = sDao.get(cd, teacher.getSchool());
+
+        // 他画面で削除されていた場合
+        if (oldSubject == null) {
+
+            Subject subject = new Subject();
+            subject.setCd(cd);
+            subject.setName(name);
+
+            request.setAttribute("subject", subject);
+            request.setAttribute("error", "科目が存在していません");
+
+            return "subject_update.jsp";
+        }
+
+
         Subject subject = new Subject();
         subject.setCd(cd);
         subject.setName(name);
         subject.setSchool(teacher.getSchool());
 
-        SubjectDao sDao = new SubjectDao();
+
         sDao.save(subject);
 
         return "subject_update_done.jsp";
