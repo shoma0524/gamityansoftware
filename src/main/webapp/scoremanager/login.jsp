@@ -25,11 +25,15 @@
         <div class="card-body">
 
             <!-- エラー表示 -->
-            <c:if test="${error != null}">
-                <div class="alert alert-danger">
-                    ${error}
-                </div>
-            </c:if>
+			<c:if test="${not empty errors}">
+			    <div class="alert alert-danger">
+			        <ul class="mb-0 list-unstyled">
+			            <c:forEach var="error" items="${errors}">
+			                <li>${error}</li>
+			            </c:forEach>
+			        </ul>
+			    </div>
+			</c:if>
 
             <form action="LoginExecute.action" method="post">
 

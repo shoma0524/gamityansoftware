@@ -1,7 +1,9 @@
 package scoremanager.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bean.School;
 import bean.Student;
@@ -17,87 +19,119 @@ import tool.Action;
 
 public class TestRegistExecuteAction extends Action {
 
-    @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        HttpSession session = request.getSession();
-        Teacher teacher = (Teacher)session.getAttribute("user");
-        School school = teacher.getSchool();
+		HttpSession session = request.getSession();
+		Teacher teacher = (Teacher) session.getAttribute("user");
 
-        // ===== パラメータ取得 =====
-        String f1 = request.getParameter("f1");
-        String classNum = request.getParameter("f2");
-        String subjectCd = request.getParameter("f3");
-        String f4 = request.getParameter("f4");
-
-        // ===== 必須チェック =====
-        if (f1 == null || f1.isEmpty()) {
-            request.setAttribute("errors", "入学年度が未入力です");
-            return "test_regist.jsp";
+        // 事前条件チェック
+        if (teacher == null) {
+            return "redirect:../Login.action";
         }
+		School school = teacher.getSchool();
 
-        if (f4 == null || f4.isEmpty()) {
-            request.setAttribute("errors", "回数が未入力です");
-            return "test_regist.jsp";
-        }
+		// ===== パラメータ取得 =====
+		String entYearStr = request.getParameter("f1");
+		String classNum = request.getParameter("f2");
+		String subjectCd = request.getParameter("f3");
+		String countStr = request.getParameter("f4");
 
-        int entYear = Integer.parseInt(f1);
-        int num = Integer.parseInt(f4);
+		Map<String, String> errors = new HashMap<>();
 
-        // ===== DAO =====
-        TestDao tDao = new TestDao();
-        SubjectDao sDao = new SubjectDao();
-        Subject subject = sDao.get(subjectCd, school);
+		// 入力チェック trueなら入力されている
+		boolean isEntered = true;
 
-        List<Test> testList = new ArrayList<>();
+		// ===== 必須チェック =====
+		if (entYearStr == null || entYearStr.isBlank()) {
+			isEntered = false;
+		}
+		if (classNum == null || classNum.isBlank()) {
+			isEntered = false;
+		}
+		if (subjectCd == null || subjectCd.isBlank()) {
+			isEntered = false;
+		}
+		if (countStr == null || countStr.isBlank()) {
+			isEntered = false;
+		}
 
-        String[] studentNos = request.getParameterValues("student_no_set");
+		// 1つでも未入力項目があれば、エラーメッセージを返す
+		if (!isEntered) {
+			System.out.println("未入力");
+			errors.put("search", "入学年度とクラスと科目と回数を選択してください");
+			request.setAttribute("errors", errors);
+			request.setAttribute("f1", entYearStr);
+			request.setAttribute("f2", classNum);
+			request.setAttribute("f3", subjectCd);
+			request.setAttribute("f4", countStr);
+			return "test_regist.jsp";
+		}
 
-        boolean hasError = false;
+		int entYear = Integer.parseInt(entYearStr);
+		int count = Integer.parseInt(countStr);
 
-        if (studentNos != null) {
-            for (String no : studentNos) {
+		// ===== DAO =====
+		TestDao tDao = new TestDao();
+		SubjectDao sDao = new SubjectDao();
+		Subject subject = sDao.get(subjectCd, school);
 
-                String pointStr = request.getParameter("point_" + no);
+		List<Test> testList = new ArrayList<>();
 
-                // ★ 未入力チェック（超重要）
-                if (pointStr == null || pointStr.isEmpty()) {
-                    break;
-                }
+		String[] studentNos = request.getParameterValues("student_no_set");
 
-                int point = Integer.parseInt(pointStr);
+		// 点数入力値のエラーフラグ trueならエラー発生
+		boolean hasError = false;
 
-                Test test = new Test();
-                Student student = new Student();
-                student.setNo(no);
+		if (studentNos != null) {
+			for (String no : studentNos) {
 
-                test.setStudent(student);
-                test.setSubject(subject);
-                test.setSchool(school);
-                test.setNo(num);
-                test.setPoint(point);
-                test.setClassNum(classNum);
+				String pointStr = request.getParameter("point_" + no);
 
-                testList.add(test);
-            }
-        }
+				// ★ 未入力チェック（超重要）
+				if (pointStr == null || pointStr.isEmpty()) {
+					continue;
+				}
 
-        // ===== エラー時 =====
-        /*
-        if (hasError) {
-            request.setAttribute("errors", "未入力の点数があります");
-            return "test_regist.jsp";
-        }
-        */
+				// 入力値に半角数字以外が入力された場合(マイナス記号は除く)
+				if (!pointStr.matches("^[0-9]+$") && !pointStr.matches("^-[0-9]+$")) {
+					errors.put(no, "半角数字で入力してください");
+					hasError = true;
+					continue;
+				} else if (pointStr.length() > 10) {
+					errors.put(no, "入力上限を超えています");
+					hasError = true;
+				}
 
-        // ===== 保存 =====
-        boolean isSuccess = tDao.save(testList);
+				int point = Integer.parseInt(pointStr);
+				if (point < 0 || 100 < point) {
+					errors.put(no, "0～100の範囲で入力してください");
+					hasError = true;
+					continue;
+				}
+				Test test = new Test();
+				Student student = new Student();
+				student.setNo(no);
 
-        if (isSuccess) {
-            return "test_regist_done.jsp";
-        } else {
-            request.setAttribute("errors", "登録に失敗しました。");
-            return "test_regist.jsp";
-        }
-    }
+				test.setStudent(student);
+				test.setSubject(subject);
+				test.setSchool(school);
+				test.setNo(count);
+				test.setPoint(point);
+				test.setClassNum(classNum);
+
+				testList.add(test);
+			}
+		}
+
+		// ===== エラー時 =====
+		if (hasError) {
+			request.setAttribute("errors", errors);
+		    return "TestRegist.action";
+		}
+
+		// ===== 保存 =====
+		tDao.save(testList);
+		return "test_regist_done.jsp";
+	}
 }

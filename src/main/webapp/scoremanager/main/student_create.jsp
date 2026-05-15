@@ -19,6 +19,7 @@
 				    	<option value="${y}">${y}</option>
 				  	</c:forEach>
 				</select>
+				<div class="text-danger small">${errors.entYear}</div>
             </div>
 
             <!-- 学生番号 -->

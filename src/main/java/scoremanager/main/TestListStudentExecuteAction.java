@@ -2,7 +2,9 @@ package scoremanager.main;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bean.School;
 import bean.Student;
@@ -19,63 +21,67 @@ import tool.Action;
 
 public class TestListStudentExecuteAction extends Action {
 
-    @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HttpSession session = request.getSession();
-        Teacher teacher = (Teacher) session.getAttribute("user");
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		Teacher teacher = (Teacher) session.getAttribute("user");
 
-        // 事前条件チェック
-        if (teacher == null) {
-            return "login.jsp";
-        }
-        
-        
-        School school = teacher.getSchool();
+		// 事前条件チェック
+		if (teacher == null) {
+			return "redirect:../Login.action";
+		}
+		School school = teacher.getSchool();
 
-        // 1. プルダウン用のデータ
-        SubjectDao sDao = new SubjectDao();
-        ClassNumDao cDao = new ClassNumDao();
+		// 1. プルダウン用のデータ
+		SubjectDao sDao = new SubjectDao();
+		ClassNumDao cDao = new ClassNumDao();
 
-        request.setAttribute("subjects", sDao.filter(school));
-        request.setAttribute("class_num_set", cDao.filter(school));
+		request.setAttribute("subjects", sDao.filter(school));
+		request.setAttribute("class_num_set", cDao.filter(school));
 
-        // 入学年度リスト
-        int year = LocalDate.now().getYear();
-        List<Integer> entYears = new ArrayList<>();
-        for (int i = year - 10; i <= year; i++) {
-            entYears.add(i);
-        }
-        request.setAttribute("ent_year_set", entYears);
-        
-        //参照データ
-        
-        //学生番号取得
-        String studentNo = request.getParameter("studentNo");
+		// 入学年度リスト
+		int year = LocalDate.now().getYear();
+		List<Integer> entYears = new ArrayList<>();
+		for (int i = year - 10; i <= year; i++) {
+			entYears.add(i);
+		}
+		request.setAttribute("ent_year_set", entYears);
 
-        // 学生 =
-        if (studentNo == null || studentNo.isEmpty()) {
-            request.setAttribute("errors", "このフィールドを入力してください");
-            return "test_list_student.jsp";
-        }
+		// エラーメッセージ格納先の準備
+		Map<String, String> errors = new HashMap<>();
 
-        // ④ 検索
-        TestListStudentDao tlstdao = new TestListStudentDao();
-        StudentDao sdao = new StudentDao();
-        Student student = sdao.get(studentNo);
+		//学生番号取得
+		String studentNo = request.getParameter("studentNo");
+		request.setAttribute("studentNo", studentNo);
 
-        List<TestListStudent> list =
-            tlstdao.filter(student);
-        
-        // ===== 代替フロー② =====
-        if (list == null || list.size() == 0) {
-            request.setAttribute("errors", "成績情報が存在しませんでした");
-        } else {
-            request.setAttribute("test_list_student", list);
-        }
+		// 入力値のチェック
+		// 入力値のエラーフラグ trueならエラー発生
+		boolean hasError = false;
+		if (studentNo == null || studentNo.isEmpty()) {
+			errors.put("student", "このフィールドを入力してください");
+			hasError = true;
+		} else if (studentNo.length() > 20) {
+			errors.put("student", "入力上限を超えています");
+			hasError = true;
+		}
 
-        request.setAttribute("studentNo", studentNo);
-        request.setAttribute("studentName", student.getName());
+		// 入力値に問題がある場合、test_list.jspに遷移
+		if (hasError) {
+			request.setAttribute("errors", errors);
+			return "test_list.jsp";
+		}
 
-        return "test_list_student.jsp";
-    }
+		// ④ 検索
+		TestListStudentDao tlstdao = new TestListStudentDao();
+		StudentDao sdao = new StudentDao();
+		Student student = sdao.get(studentNo);
+
+		if (student != null) {
+			List<TestListStudent> list = tlstdao.filter(student);
+
+			request.setAttribute("test_list_student", list);
+			request.setAttribute("studentName", student.getName());
+		}
+		return "test_list_student.jsp";
+	}
 }
