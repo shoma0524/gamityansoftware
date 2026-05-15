@@ -21,7 +21,7 @@
 							<select name="f1" class="form-select form-select-sm" style="width: 120px;">
 								<option value="">--------</option>
 								<c:forEach var="year" items="${ent_year_set}">
-									<option value="${year}" <c:if test="${year == f1}">selected</c:if>>${year}</option>
+									<option value="<c:out value="${year}"></c:out>" <c:if test="${year == f1}">selected</c:if>><c:out value="${year}"></c:out></option>
 								</c:forEach>
 							</select>
 						</div>
@@ -30,7 +30,7 @@
 							<select name="f2" class="form-select form-select-sm" style="width: 120px;">
 								<option value="">--------</option>
 								<c:forEach var="c" items="${class_num_set}">
-									<option value="${c}" <c:if test="${c == f2}">selected</c:if>>${c}</option>
+									<option value="<c:out value="${c}"></c:out>" <c:if test="${c == f2}">selected</c:if>><c:out value="${c}"></c:out></option>
 								</c:forEach>
 							</select>
 						</div>
@@ -39,7 +39,7 @@
 							<select name="f3" class="form-select form-select-sm" style="width: 200px;">
 								<option value="">--------</option>
 								<c:forEach var="subject" items="${subjects}">
-									<option value="${subject.cd}" <c:if test="${subject.cd == f3}">selected</c:if>>${subject.name}</option>
+									<option value="<c:out value="${subject.cd}"></c:out>" <c:if test="${subject.cd == f3}">selected</c:if>><c:out value="${subject.name}"></c:out></option>
 								</c:forEach>
 							</select>
 						</div>

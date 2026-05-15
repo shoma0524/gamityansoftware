@@ -12,6 +12,11 @@ public class TeacherCreateAction extends Action {
 		HttpSession session = request.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
 
+		// 事前条件チェック
+		if (teacher == null) {
+			return "redirect:../Login.action";
+		}
+
 		return "teacher_create.jsp";
 	}
 }

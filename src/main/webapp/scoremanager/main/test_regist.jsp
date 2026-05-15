@@ -13,7 +13,7 @@
 				<select name="f1" class="form-select">
 					<option value="">--------</option>
 					<c:forEach var="year" items="${ent_year_set}">
-						<option value="${year}" <c:if test="${year == f1}">selected</c:if>>${year}</option>
+						<option value="<c:out value="${year}"></c:out>" <c:if test="${year == f1}">selected</c:if>><c:out value="${year}"></c:out></option>
 					</c:forEach>
 				</select>
 			</div>
@@ -23,7 +23,7 @@
 				<select name="f2" class="form-select">
 					<option value="">--------</option>
 					<c:forEach var="num" items="${class_num_set}">
-						<option value="${num}" ${num == f2 ? 'selected' : ''}>${num}</option>
+						<option value="<c:out value="${num}"></c:out>" ${num == f2 ? 'selected' : ''}><c:out value="${num}"></c:out></option>
 					</c:forEach>
 				</select>
 			</div>
@@ -33,7 +33,7 @@
 				<select name="f3" class="form-select">
 					<option value="">--------</option>
 					<c:forEach var="sub" items="${subjects}">
-						<option value="${sub.cd}" ${sub.cd == f3 ? 'selected' : ''}>${sub.name}</option>
+						<option value="<c:out value="${sub.cd}"></c:out>" ${sub.cd == f3 ? 'selected' : ''}><c:out value="${sub.name}"></c:out></option>
 					</c:forEach>
 				</select>
 			</div>
@@ -58,13 +58,13 @@
 	<c:choose>
 
 		<c:when test="${tests != null and tests.size() > 0}">
-			<div class="mb-3">科目：${subject.name} （${f4}回）</div>
+			<div class="mb-3">科目：<c:out value="${subject.name}"></c:out> （<c:out value="${f4}"></c:out>回）</div>
 
 			<form action="TestRegistExecute.action" method="post">
-				<input type="hidden" name="f1" value="${f1}">
-				<input type="hidden" name="f2" value="${f2}">
-				<input type="hidden" name="f3" value="${f3}">
-				<input type="hidden" name="f4" value="${f4}">
+				<input type="hidden" name="f1" value="<c:out value="${f1}"></c:out>">
+				<input type="hidden" name="f2" value="<c:out value="${f2}"></c:out>">
+				<input type="hidden" name="f3" value="<c:out value="${f3}"></c:out>">
+				<input type="hidden" name="f4" value="<c:out value="${f4}"></c:out>">
 
 				<table class="table table-hover">
 						<tr>
@@ -76,12 +76,12 @@
 						</tr>
 						<c:forEach var="item" items="${tests}">
 							<tr>
-								<td>${item.student.entYear}</td>
-								<td>${item.classNum}</td>
-								<td>${item.student.no}
-									<input type="hidden" name="student_no_set" value="${item.student.no}">
+								<td><c:out value="${item.student.entYear}"></c:out></td>
+								<td><c:out value="${item.classNum}"></c:out></td>
+								<td><c:out value="${item.student.no}"></c:out>
+									<input type="hidden" name="student_no_set" value="<c:out value="${item.student.no}"></c:out>">
 								</td>
-								<td>${item.student.name}</td>
+								<td><c:out value="${item.student.name}"></c:out></td>
 								<td>
 									<!-- ★ 初回は空、エラー時は値保持 -->
 									<input type="text" name="point_${item.student.no}" class="form-control"

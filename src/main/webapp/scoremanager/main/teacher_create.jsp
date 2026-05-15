@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <c:import url="/common/base.jsp">
-	<c:param name="title">得点管理システム 教員情報登録</c:param>
+	<c:param name="title">得点管理システム</c:param>
 	<c:param name="scripts">
 		function togglePassword() {
 			let pass1 = document.getElementById("password1");
@@ -28,21 +28,21 @@
 			<!-- 教員ID -->
 			<div class="mb-3">
 				<label class="form-label fw-bold">教員ID</label>
-				<input type="text" name="id" class="form-control" value="${id}" placeholder="教員IDを入力してください" required>
+				<input type="text" name="id" class="form-control" value="<c:out value="${id}"></c:out>" placeholder="教員IDを入力してください" maxlength="10" required>
 				<div class="text-danger small">${errors.id}</div>
 			</div>
 
 			<!-- 氏名 -->
 			<div class="mb-3">
 				<label class="form-label fw-bold">氏名</label>
-				<input type="text" name="name" class="form-control" value="${name}" placeholder="氏名を入力してください" required>
+				<input type="text" name="name" class="form-control" value="<c:out value="${name}"></c:out>" placeholder="氏名を入力してください" maxlength="10" required>
 				<div class="text-danger small">${errors.name}</div>
 			</div>
 
 			<!-- パスワード -->
 			<div class="mb-3">
 				<label class="form-label fw-bold">パスワード</label>
-				<input type="password" name="password1" id="password1" class="form-control" value="${password1}" placeholder="8文字以上30文字以内の半角英数字で入力してください" required>
+				<input type="password" name="password1" id="password1" class="form-control" value="<c:out value="${password1}"></c:out>" placeholder="8文字以上30文字以内の半角英数字で入力してください" maxlength="30" required>
 				<div class="text-danger small">${errors.password_1}</div>
 				<div class="text-danger small">${errors.password_2}</div>
 			</div>
@@ -50,7 +50,7 @@
 			<!-- パスワード(確認用) -->
 			<div class="mb-3">
 				<label class="form-label fw-bold">パスワード(確認用)</label>
-				<input type="password" name="password2" id="password2" class="form-control" value="${password2}" placeholder="パスワードを入力してください(確認用)" required>
+				<input type="password" name="password2" id="password2" class="form-control" value="<c:out value="${password2}"></c:out>" placeholder="パスワードを入力してください(確認用)" maxlength="30" required>
 				<div class="text-danger small">${errors.password_2}</div>
 			</div>
 
