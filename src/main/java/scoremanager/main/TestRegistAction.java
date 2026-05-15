@@ -86,7 +86,27 @@ public class TestRegistAction extends Action {
 			request.setAttribute("subject", subject); // ★科目表示用（これも重要）
 		} else {
 			// どれか１つでも未入力ならエラーメッセージを表示
-			errors.put("search", "入学年度とクラスと科目と回数を選択してください");
+			List<String> missingItems = new ArrayList<>();
+
+			if (entYearStr == null || entYearStr.isBlank()) {
+			    missingItems.add("入学年度");
+			}
+
+			if (classNum == null || classNum.isBlank()) {
+			    missingItems.add("クラス");
+			}
+
+			if (subjectCd == null || subjectCd.isBlank()) {
+			    missingItems.add("科目");
+			}
+
+			if (numStr == null || numStr.isBlank()) {
+			    missingItems.add("回数");
+			}
+			String message = String.join("、", missingItems)
+			            + "を選択してください";
+
+			errors.put("search", message);
 			request.setAttribute("errors", errors);
 		}
 
