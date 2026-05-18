@@ -60,7 +60,7 @@ public class SubjectCreateExecuteAction extends Action {
         subject.setName(name);
         subject.setSchool(teacher.getSchool());
 
-        dao.save(subject);
+        dao.insert(subject);
 
         return "subject_create_done.jsp";
     }

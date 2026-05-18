@@ -44,7 +44,7 @@ public class SubjectUpdateExecuteAction extends Action {
         subject.setSchool(teacher.getSchool());
 
 
-        sDao.save(subject);
+        sDao.update(subject);
 
         return "subject_update_done.jsp";
     }
