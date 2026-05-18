@@ -39,36 +39,6 @@ public class TestRegistExecuteAction extends Action {
 
 		Map<String, String> errors = new HashMap<>();
 
-		// 入力チェック trueなら入力されている
-		boolean isEntered = true;
-
-		// ===== 必須チェック =====
-		if (entYearStr == null || entYearStr.isBlank()) {
-			isEntered = false;
-		}
-		if (classNum == null || classNum.isBlank()) {
-			isEntered = false;
-		}
-		if (subjectCd == null || subjectCd.isBlank()) {
-			isEntered = false;
-		}
-		if (countStr == null || countStr.isBlank()) {
-			isEntered = false;
-		}
-
-		// 1つでも未入力項目があれば、エラーメッセージを返す
-		if (!isEntered) {
-			System.out.println("未入力");
-			errors.put("search", "入学年度とクラスと科目と回数を選択してください");
-			request.setAttribute("errors", errors);
-			request.setAttribute("f1", entYearStr);
-			request.setAttribute("f2", classNum);
-			request.setAttribute("f3", subjectCd);
-			request.setAttribute("f4", countStr);
-			return "test_regist.jsp";
-		}
-
-		int entYear = Integer.parseInt(entYearStr);
 		int count = Integer.parseInt(countStr);
 
 		// ===== DAO =====
@@ -101,6 +71,7 @@ public class TestRegistExecuteAction extends Action {
 				} else if (pointStr.length() > 10) {
 					errors.put(no, "入力上限を超えています");
 					hasError = true;
+					continue;
 				}
 
 				int point = Integer.parseInt(pointStr);
