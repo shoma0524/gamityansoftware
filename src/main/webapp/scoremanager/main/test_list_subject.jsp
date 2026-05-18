@@ -76,7 +76,7 @@
 		<%-- 結果表示エリア --%>
 		<c:choose>
 			<c:when test="${not empty test_list_subject}">
-				<div class="mb-2 fw-bold">科目：<c:out value="${subject.name}"></c:out></div>
+				<div class="mb-2 fw-bold">科目：<c:out value="${subject.name}" default="null"></c:out></div>
 				<table class="table table-sm table-hover border-top">
 					<thead>
 						<tr>

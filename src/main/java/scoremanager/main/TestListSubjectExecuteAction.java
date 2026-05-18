@@ -75,6 +75,12 @@ public class TestListSubjectExecuteAction extends Action {
 
 		// 4. データ取得
 		Subject subject = sDao.get(subjectCd, school);
+		if (subject == null) {
+			errors.put("subject", "科目が存在しませんでした");
+			request.setAttribute("errors", errors);
+			return "test_list.jsp";
+			}
+
 		TestListSubjectDao tLiSubDao = new TestListSubjectDao();
 		List<TestListSubject> list = tLiSubDao.filter(entYear, classNum, subject, school);
 

@@ -11,7 +11,7 @@ import tool.Action;
 
 //クラス一覧を出すjava
 public class ClassListAction extends Action {
-    
+
     @Override
     public String execute(
         HttpServletRequest request,HttpServletResponse response
@@ -20,7 +20,11 @@ public class ClassListAction extends Action {
 
         //セッションからログイン中のユーザー(Teacher)を取得
         Teacher teacher = (Teacher)session.getAttribute("user");
-        
+        // 事前条件チェック
+        if (teacher == null) {
+            return "redirect:../Login.action";
+        }
+
         if (!"002".equals(teacher.getPermission().getCd()) && !"003".equals(teacher.getPermission().getCd())) {
         	request.setAttribute("error", "permission");
             return "/error.jsp";
