@@ -1,7 +1,5 @@
 package scoremanager.main;
 
-import tool.Action;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,9 +9,10 @@ import dao.ClassNumDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import tool.Action;
 
 public class ClassCreateExecuteAction extends Action {
-    
+
     public String execute(
         HttpServletRequest request, HttpServletResponse response
     )throws Exception{
@@ -21,6 +20,10 @@ public class ClassCreateExecuteAction extends Action {
         HttpSession session=request.getSession();
         //セッションからログイン中のユーザー（Teacher）を取得
         Teacher teacher = (Teacher)session.getAttribute("user");
+        // 事前条件チェック
+        if (teacher == null) {
+            return "redirect:../Login.action";
+        }
 
         String classNumStr = request.getParameter("class_num");
 
