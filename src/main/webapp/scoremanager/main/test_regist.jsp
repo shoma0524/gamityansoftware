@@ -61,7 +61,6 @@
 			<div class="mb-3">科目：<c:out value="${subject.name}"></c:out> （<c:out value="${f4}"></c:out>回）</div>
 
 			<form action="TestRegistExecute.action" method="post">
-				<input type="hidden" name="f1" value="<c:out value="${f1}"></c:out>">
 				<input type="hidden" name="f2" value="<c:out value="${f2}"></c:out>">
 				<input type="hidden" name="f3" value="<c:out value="${f3}"></c:out>">
 				<input type="hidden" name="f4" value="<c:out value="${f4}"></c:out>">
