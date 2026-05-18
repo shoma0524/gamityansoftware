@@ -22,7 +22,6 @@
             <div class="mb-3">
                 <label class="form-label fw-bold">科目名</label>
                 <input type="text" name="name" class="form-control" value="${subject.name}" placeholder="科目名を入力してください" required>
-                <div class="text-danger small">${error.name}</div>
             </div>
 
             <%-- ボタン --%>
