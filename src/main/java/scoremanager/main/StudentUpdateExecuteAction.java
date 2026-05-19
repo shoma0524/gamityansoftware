@@ -25,7 +25,6 @@ public class StudentUpdateExecuteAction extends Action {
         HttpSession session = request.getSession();
         Teacher teacher = (Teacher)session.getAttribute("user");
 
-   
         String entYearStr = request.getParameter("entYear");
         String no = request.getParameter("no");
         String name = request.getParameter("name");
@@ -37,6 +36,9 @@ public class StudentUpdateExecuteAction extends Action {
         //  入力チェック
         if (name == null || name.isEmpty()) {
             errors.put("name", "このフィールドを入力してください");
+        } else if (name.length() > 10) {
+           
+            errors.put("name", "10文字以内で入力してください");
         }
 
         // エラーがある場合の処理
@@ -50,7 +52,6 @@ public class StudentUpdateExecuteAction extends Action {
             ClassNumDao cdao = new ClassNumDao();
             List<String> classList = cdao.filter(teacher.getSchool());
 
-            
             Student student = new Student();
             student.setEntYear(Integer.parseInt(entYearStr));
             student.setNo(no);
