@@ -7,8 +7,8 @@
     <c:param name="scripts"></c:param>
 
     <c:param name="content">
-        <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">科目情報削除</h2>
-        
+        <h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">科目情報削除</h2>
+
         <div class="container mt-4" style="max-width: 500px;">
             <div class="alert alert-danger">
                 以下の科目を削除します。よろしいですか？
@@ -17,16 +17,16 @@
             <table class="table table-bordered">
                 <tr>
                     <th class="bg-light w-25">科目コード</th>
-                    <td>${subject.cd}</td>
+                    <td><c:out value="${subject.cd}"></c:out></td>
                 </tr>
                 <tr>
                     <th class="bg-light">科目名</th>
-                    <td>${subject.name}</td>
+                    <td><c:out value="${subject.name}"></c:out></td>
                 </tr>
             </table>
 
             <div class="d-flex gap-2 mt-4">
-                <a href="SubjectDeleteExecute.action?cd=${subject.cd}" class="btn btn-danger w-100">削除する</a>
+                <a href="SubjectDeleteExecute.action?cd=<c:out value="${subject.cd}"></c:out>" class="btn btn-danger w-100">削除する</a>
                 <a href="SubjectList.action" class="btn btn-secondary w-100">キャンセル</a>
             </div>
         </div>
