@@ -15,14 +15,18 @@ public class SubjectUpdateAction extends Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
-        
+        // 事前条件チェック
+        if (teacher == null) {
+            return "redirect:../Login.action";
+        }
+
         String cd = request.getParameter("cd");
-        
+
         SubjectDao sDao = new SubjectDao();
         Subject subject = sDao.get(cd, teacher.getSchool());
-        
+
         request.setAttribute("subject", subject);
-        
+
         return "subject_update.jsp";
     }
 }

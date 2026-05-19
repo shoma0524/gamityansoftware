@@ -13,27 +13,30 @@ import tool.Action;
 //科目一覧を出すクラス
 public class SubjectListAction extends Action {
 
-    @Override
-    public String execute(
-        HttpServletRequest request,HttpServletResponse response
-    )throws Exception{
-        HttpSession session=request.getSession();
+	@Override
+	public String execute(
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
 
-        //セッションからログイン中のユーザー(Teacher)を取得
-        Teacher teacher= (Teacher)session.getAttribute("user");
+		//セッションからログイン中のユーザー(Teacher)を取得
+		Teacher teacher = (Teacher) session.getAttribute("user");
+		// 事前条件チェック
+		if (teacher == null) {
+			return "redirect:../Login.action";
+		}
 
-        if (!"002".equals(teacher.getPermission().getCd()) && !"003".equals(teacher.getPermission().getCd())) {
-        	request.setAttribute("error", "permission");
-            return "/error.jsp";
-        }      
-        
-        SubjectDao sDao=new SubjectDao();
+		if (!"002".equals(teacher.getPermission().getCd()) && !"003".equals(teacher.getPermission().getCd())) {
+			request.setAttribute("error", "permission");
+			return "/error.jsp";
+		}
 
-        List<Subject> subjects=sDao.filter(teacher.getSchool());
+		SubjectDao sDao = new SubjectDao();
 
-        request.setAttribute("subjects",subjects);
+		List<Subject> subjects = sDao.filter(teacher.getSchool());
 
-        return "subject_list.jsp";
+		request.setAttribute("subjects", subjects);
 
-    }
+		return "subject_list.jsp";
+
+	}
 }
