@@ -13,7 +13,7 @@
             <%-- 科目コード --%>
             <div class="mb-3">
                 <label class="form-label fw-bold">科目コード</label>
-                <input type="text" name="cd" value="${subject.cd}" class="form-control" readonly>
+                <input type="text" name="cd" value="<c:out value="${subject.cd}"></c:out>" class="form-control" readonly>
                 <div class="text-danger small">${error}</div>
             </div>
 
@@ -21,7 +21,7 @@
             <%-- 科目名 --%>
             <div class="mb-3">
                 <label class="form-label fw-bold">科目名</label>
-                <input type="text" name="name" class="form-control" value="<c:out value="${subject.name}"></c:out>" placeholder="科目名を入力してください" maxlength="50" required>
+                <input type="text" name="name" class="form-control" value="<c:out value="${subject.name}"></c:out>" placeholder="科目名を入力してください" maxlength="20" required>
                 <div class="text-danger small">${error_name}</div>
             </div>
 

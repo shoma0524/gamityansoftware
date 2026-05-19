@@ -32,7 +32,7 @@ public class SubjectCreateExecuteAction extends Action {
 
         //入力チェック
         if(cd == null || cd.length() != 3){
-            errors.put("cd", "科目コードは３文字で入力してください");
+            errors.put("cd", "科目コードは3文字で入力してください");
         }
 
         if(name==null || name.isEmpty()){
@@ -45,8 +45,6 @@ public class SubjectCreateExecuteAction extends Action {
             request.setAttribute("errors",errors);
             request.setAttribute("cd",cd);
             request.setAttribute("name",name);
-            request.getRequestDispatcher("subject_create.jsp")
-                    .forward(request,response);
             return "subject_create.jsp";
         }
 
