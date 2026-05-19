@@ -21,7 +21,8 @@
             <%-- 科目名 --%>
             <div class="mb-3">
                 <label class="form-label fw-bold">科目名</label>
-                <input type="text" name="name" class="form-control" value="<c:out value="${subject.name}"></c:out>" placeholder="科目名を入力してください" maxlength="20" required>
+                <input type="text" name="name" class="form-control" value="<c:out value="${subject.name}"></c:out>" placeholder="科目名を入力してください" maxlength="50" required>
+                <div class="text-danger small">${error_name}</div>
             </div>
 
             <%-- ボタン --%>

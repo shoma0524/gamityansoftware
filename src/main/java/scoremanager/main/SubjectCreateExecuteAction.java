@@ -1,7 +1,5 @@
 package scoremanager.main;
 
-import tool.Action;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,9 +9,10 @@ import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import tool.Action;
 
 public class SubjectCreateExecuteAction extends Action {
-    
+
     public String execute(
         HttpServletRequest request, HttpServletResponse response
     )throws Exception{
@@ -21,6 +20,10 @@ public class SubjectCreateExecuteAction extends Action {
         HttpSession session=request.getSession();
         //セッションからログイン中のユーザー（Teacher）を取得
         Teacher teacher = (Teacher)session.getAttribute("user");
+        // 事前条件チェック
+        if (teacher == null) {
+            return "redirect:../Login.action";
+        }
 
         String cd = request.getParameter("cd");
         String name = request.getParameter("name");
@@ -34,6 +37,8 @@ public class SubjectCreateExecuteAction extends Action {
 
         if(name==null || name.isEmpty()){
             errors.put("name","科目名を入力してください");
+        } else if (name.length() > 20) {
+        	errors.put("name", "科目名は20文字以内で入力してください");
         }
         //エラーがあれば戻す
         if(!errors.isEmpty()){
@@ -51,6 +56,8 @@ public class SubjectCreateExecuteAction extends Action {
         if(dao.get(cd, teacher.getSchool()) != null){
            errors.put("cd","科目コードが重複しています");
            request.setAttribute("errors",errors);
+           request.setAttribute("cd",cd);
+           request.setAttribute("name",name);
            return "subject_create.jsp";
         }
 

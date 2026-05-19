@@ -13,14 +13,14 @@
             <!--科目コード-->
             <div class="mb-3">
                 <label class="form-label fw-bold">科目コード</label>
-                <input type="text" name="cd" value="${cd}" class="form-control" placeholder="科目コードを入力してください" required>
+                <input type="text" name="cd" value="<c:out value="${cd}"></c:out>" class="form-control" placeholder="科目コードを入力してください" maxlength="50" required>
                 <div class="text-danger small">${errors.cd}</div>
             </div>
 
             <!-- 科目名 -->
              <div class="mb-3">
                 <label class="form-label fw-bold">科目名</label>
-                <input type="text" name="name" value="${name}" class="form-control" placeholder="科目名を入力してください" required>
+                <input type="text" name="name" value="<c:out value="${name}"></c:out>" class="form-control" placeholder="科目名を入力してください" maxlength="50" required>
                 <div class="text-danger small">${errors.name}</div>
              </div>
 
@@ -29,7 +29,7 @@
                 <button type="submit" class="btn btn-primary w-100">登録</button>
                 <a href="SubjectList.action" class="btn btn-secondary w-100">戻る</a>
              </div>
-             
+
         </form>
     </c:param>
 </c:import>
