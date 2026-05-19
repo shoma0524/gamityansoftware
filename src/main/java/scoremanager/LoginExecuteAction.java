@@ -62,7 +62,7 @@ public class LoginExecuteAction extends Action {
         } else {
 
             // ログイン失敗
-        	errors.add("IDまたはパスワードが確認できませんでした");
+        	errors.add("IDまたはパスワードが正しくありません");
         	request.setAttribute("errors", errors);
             request.setAttribute("id", id);
 
