@@ -23,7 +23,7 @@ public class StudentCreateExecuteAction extends Action {
     ) throws Exception {
  
         HttpSession session = request.getSession();
-     // セッションからログイン中のユーザー（Teacher）を取得
+       
         Teacher teacher = (Teacher)session.getAttribute("user");
  
         String entYearStr = request.getParameter("ent_year");
@@ -37,7 +37,7 @@ public class StudentCreateExecuteAction extends Action {
         int year = LocalDate.now().getYear();
         List<Integer> entYearSet = new ArrayList<>();
         for (int i = year - 10; i <= year; i++) {
-        	entYearSet.add(i);
+            entYearSet.add(i);
         }
  
         // クラス一覧
@@ -55,11 +55,23 @@ public class StudentCreateExecuteAction extends Action {
  
         if (name == null || name.isEmpty()) {
             errors.put("name", "氏名を入力してください");
+        } else if (name.length() > 10) {
+            errors.put("name", "10文字以内で入力してください");
         }
  
+      
+        Student student = new Student();
+        if (entYearStr != null && !entYearStr.equals("0") && !entYearStr.isEmpty()) {
+            student.setEntYear(Integer.parseInt(entYearStr));
+        }
+        student.setNo(no);
+        student.setName(name);
+        student.setClassNum(classNum);
+
         // エラーがあれば戻る
         if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);
+            request.setAttribute("student", student); // ★追加：入力された情報を保持
             request.setAttribute("ent_year_set", entYearSet);
             request.setAttribute("class_num_set", classList);
             return "student_create.jsp";
@@ -71,17 +83,13 @@ public class StudentCreateExecuteAction extends Action {
         if (sdao.get(no) != null) {
             errors.put("no", "学生番号が重複しています");
             request.setAttribute("errors", errors);
+            request.setAttribute("student", student); // ★追加：重複エラー時も情報を保持
             request.setAttribute("ent_year_set", entYearSet);
             request.setAttribute("class_num_set", classList);
             return "student_create.jsp";
         }
  
         // 登録
-        Student student = new Student();
-        student.setNo(no);
-        student.setName(name);
-        student.setClassNum(classNum);
-        student.setEntYear(Integer.parseInt(entYearStr));
         student.setSchool(teacher.getSchool());
         student.setIsAttend(true);
  
@@ -90,4 +98,3 @@ public class StudentCreateExecuteAction extends Action {
         return "student_create_done.jsp";
     }
 }
- 
