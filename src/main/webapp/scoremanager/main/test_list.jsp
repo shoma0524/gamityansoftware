@@ -44,6 +44,7 @@
 							</select>
 						</div>
 						<div class="col-auto pt-4">
+							<input type="hidden" name="f" value="sj">
 							<button type="submit" class="btn btn-secondary btn-sm px-4">検索</button>
 						</div>
 					</div>
@@ -66,6 +67,7 @@
 								placeholder="学生番号を入力してください" style="width: 250px;"  required>
 						</div>
 						<div class="col-auto pt-4">
+							<input type="hidden" name="f" value="st">
 							<button type="submit" class="btn btn-secondary btn-sm px-4">検索</button>
 						</div>
 					</div>

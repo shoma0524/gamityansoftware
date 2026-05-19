@@ -16,7 +16,7 @@
                 <select name="ent_year" class="form-select">
             		<option value="0">------</option>
 				  	<c:forEach var="y" items="${ent_year_set}">
-				    	
+
 				    	<option value="${y}" ${y == student.entYear ? 'selected' : ''}>${y}</option>
 				  	</c:forEach>
 				</select>
@@ -26,16 +26,16 @@
             <!-- 学生番号 -->
             <div class="mb-3">
                 <label class="form-label fw-bold">学生番号</label>
-               
-                <input type="text" name="no" class="form-control" value="<c:out value="${student.no}"></c:out>" placeholder="学生番号を入力してください">
+
+                <input type="text" name="no" class="form-control" value="<c:out value="${student.no}"></c:out>" placeholder="学生番号を入力してください" maxlength="10" required>
                 <div class="text-danger small">${errors.no}</div>
             </div>
 
             <!-- 氏名 -->
             <div class="mb-3">
                 <label class="form-label fw-bold">氏名</label>
-               
-                <input type="text" name="name" class="form-control" value="<c:out value="${student.name}"></c:out>" placeholder="氏名を入力してください">
+
+                <input type="text" name="name" class="form-control" value="<c:out value="${student.name}"></c:out>" placeholder="氏名を入力してください" maxlength="30" required>
                 <div class="text-danger small">${errors.name}</div>
             </div>
 
@@ -44,13 +44,13 @@
                 <label class="form-label fw-bold">クラス</label>
                 <select name="classNum" class="form-select">
                     <c:forEach var="c" items="${class_num_set}">
-                       
+
                         <option value="${c}" ${c == student.classNum ? 'selected' : ''}>${c}</option>
                     </c:forEach>
                 </select>
             </div>
 
-           
+
             <div class="d-flex gap-2 mt-4">
                 <button type="submit" class="btn btn-primary w-100">登録して終了</button>
                 <a href="StudentList.action" class="btn btn-secondary w-100">戻る</a>

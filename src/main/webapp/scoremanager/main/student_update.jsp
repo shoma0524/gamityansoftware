@@ -13,31 +13,29 @@
 
 			<!-- 入学年度 -->
 			<div class="mb-3">
-				<label class="form-label fw-bold">入学年度</label> <input type="text"
-					name="entYear" value="${student.entYear}" class="form-control"
-					readonly>
+				<label class="form-label fw-bold">入学年度</label>
+				<input type="text" name="entYear" value="<c:out value="${student.entYear}"></c:out>" class="form-control" readonly>
 			</div>
 
 			<!-- 学生番号 -->
 			<div class="mb-3">
-				<label class="form-label fw-bold">学生番号</label> <input type="text"
-					name="no" value="${student.no}" class="form-control" readonly>
+				<label class="form-label fw-bold">学生番号</label>
+				<input type="text" name="no" value="<c:out value="${student.no}"></c:out>" class="form-control" readonly>
 				<div class="text-danger small">${errors.no}</div>
 			</div>
 
 			<!-- 氏名 -->
 			<div class="mb-3">
-				<label class="form-label fw-bold">氏名</label> <input type="text"
-					name="name" class="form-control"
-					value="<c:out value='${student.name}' />"
-					placeholder="このフィールドに入力してください">
+				<label class="form-label fw-bold">氏名</label>
+				<input type="text" name="name" class="form-control" value="<c:out value='${student.name}' />"
+					placeholder="このフィールドに入力してください" maxlength="30" required>
 				<div class="text-danger small">${errors.name}</div>
 			</div>
 
 			<!-- クラス -->
 			<div class="mb-3">
-				<label class="form-label fw-bold">クラス</label> <select
-					name="classNum" class="form-select">
+				<label class="form-label fw-bold">クラス</label>
+				<select name="classNum" class="form-select">
 					<c:forEach var="c" items="${class_num_set}">
 						<option value="${c}">${c}</option>
 					</c:forEach>
@@ -46,8 +44,8 @@
 
 			<!-- 在学中 -->
 			<div class="mb-3">
-				<label class="form-label fw-bold">在学中</label> <input type="checkbox"
-					name="isAttend" ${student.isAttend ? "checked" : ""}>
+				<label class="form-label fw-bold">在学中</label>
+				<input type="checkbox" name="isAttend" ${student.isAttend ? "checked" : ""}>
 			</div>
 
 			<!-- ボタン -->
