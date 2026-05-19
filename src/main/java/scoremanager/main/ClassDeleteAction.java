@@ -15,6 +15,10 @@ public class ClassDeleteAction extends Action {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
+		// 事前条件チェック
+        if (teacher == null) {
+            return "redirect:../Login.action";
+        }
 
 		String class_num = request.getParameter("class_num");
 

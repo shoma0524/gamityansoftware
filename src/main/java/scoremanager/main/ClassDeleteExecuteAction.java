@@ -15,6 +15,10 @@ public class ClassDeleteExecuteAction extends Action {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
+		// 事前条件チェック
+        if (teacher == null) {
+            return "redirect:../Login.action";
+        }
 
 		String class_num = request.getParameter("class_num");
 
@@ -23,8 +27,10 @@ public class ClassDeleteExecuteAction extends Action {
 		classNum.setSchool(teacher.getSchool());
 
 		ClassNumDao cnDao = new ClassNumDao();
-		cnDao.delete(classNum);
-
-		return "class_delete_done.jsp";
+		if (cnDao.delete(classNum)) {
+			return "class_delete_done.jsp";
+		} else {
+			return "/error.jsp";
+		}
 	}
 }

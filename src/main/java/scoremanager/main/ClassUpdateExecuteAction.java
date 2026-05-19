@@ -54,7 +54,10 @@ public class ClassUpdateExecuteAction extends Action {
 		}
 
 		// 正常な値が入力されていれば更新される
-		cnDao.save(classNum, newClassnum);
-		return "class_update_done.jsp";
+		if (cnDao.save(classNum, newClassnum)) {
+			return "class_update_done.jsp";
+		} else {
+			return "/error.jsp";
+		}
 	}
 }

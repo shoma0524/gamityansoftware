@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <c:import url="/common/base.jsp">
-	<c:param name="title">得点管理システム クラス情報削除</c:param>
+	<c:param name="title">得点管理システム</c:param>
 	<c:param name="scripts"></c:param>
 
 	<c:param name="content">
@@ -15,7 +15,7 @@
 			<table class="table table-bordered">
 				<tr>
 					<th class="bg-light w-25">クラス番号</th>
-					<td>${classNum.class_num}</td>
+					<td><c:out value="${classNum.class_num}"></c:out></td>
 				</tr>
 				<%-- 今後クラス名を実装する場合、以下の処理を追加
 				<tr>
@@ -25,7 +25,7 @@
 				--%>
 			</table>
 			<div class="d-flex gap-2 mt-4">
-				<a href="ClassDeleteExecute.action?class_num=${classNum.class_num}" class="btn btn-danger w-100">削除する</a>
+				<a href="ClassDeleteExecute.action?class_num=<c:out value="${classNum.class_num}"></c:out>" class="btn btn-danger w-100">削除する</a>
 				<a href="ClassList.action" class="btn btn-secondary w-100">キャンセル</a>
 			</div>
 		</div>
