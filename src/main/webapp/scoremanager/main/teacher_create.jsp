@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <c:import url="/common/base.jsp">
-	<c:param name="title">得点管理システム</c:param>
+	<c:param name="title">得点管理システム  教員情報登録</c:param>
 	<c:param name="scripts">
 		function togglePassword() {
 			let pass1 = document.getElementById("password1");
@@ -35,7 +35,7 @@
 			<!-- 氏名 -->
 			<div class="mb-3">
 				<label class="form-label fw-bold">氏名</label>
-				<input type="text" name="name" class="form-control" value="<c:out value="${name}"></c:out>" placeholder="氏名を入力してください" maxlength="10" required>
+				<input type="text" name="name" class="form-control" value="<c:out value="${name}"></c:out>" placeholder="氏名を入力してください" maxlength="30" required>
 				<div class="text-danger small">${errors.name}</div>
 			</div>
 

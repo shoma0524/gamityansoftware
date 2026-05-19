@@ -24,15 +24,14 @@
 							<th>配属校</th>
 							<th>権限名</th>
 							<th></th>
-							<th></th>
 						</tr>
 						<c:forEach var="teacher" items="${teachers}">
 							<tr>
-								<td>${teacher.id}</td>
-								<td>${teacher.name}</td>
-								<td>${teacher.school.name}</td>
-								<td>${teacher.permission.name}</td>
-								<td><a href="TeacherUpdate.action?id=${teacher.id}">変更</a></td>
+								<td><c:out value="${teacher.id}"></c:out></td>
+								<td><c:out value="${teacher.name}"></c:out></td>
+								<td><c:out value="${teacher.school.name}"></c:out></td>
+								<td><c:out value="${teacher.permission.name}"></c:out></td>
+								<td><a href="TeacherUpdate.action?id=<c:out value="${teacher.id}"></c:out>">変更</a></td>
 							</tr>
 						</c:forEach>
 					</table>
